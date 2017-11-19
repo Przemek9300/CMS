@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using System.Web.Optimization;
-
+using CMS.Services;
 namespace CMS
 {
     public class BundleConfig
@@ -25,7 +25,8 @@ namespace CMS
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      GeneralSettingsService.LoadLayout()));
+
         }
     }
 }
