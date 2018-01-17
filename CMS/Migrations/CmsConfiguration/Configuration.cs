@@ -1,18 +1,20 @@
-namespace CMS.Migrations
+namespace CMS.Migrations.CmsConfiguration
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CMS.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<CMS.CMSContext.Context>
     {
+        //Update-Database -ConfigurationTypeName CMS.Migrations.CmsConfiguration.Configuration
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CMS.Models.ApplicationDbContext context)
+        protected override void Seed(CMS.CMSContext.Context context)
         {
             //  This method will be called after migrating to the latest version.
 

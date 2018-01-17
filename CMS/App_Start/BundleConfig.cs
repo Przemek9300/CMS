@@ -25,7 +25,7 @@ namespace CMS
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      GeneralSettingsService.LoadLayout()));
+                      "~/Content/bootstrap.css"));
 
         }
     }

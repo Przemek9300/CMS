@@ -1,4 +1,4 @@
-namespace CMS.Migrations
+namespace CMS.Migrations.ApplicationDb
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -7,19 +7,6 @@ namespace CMS.Migrations
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.Posts",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Title = c.String(),
-                        Author = c.String(),
-                        Description = c.String(),
-                        Content = c.String(),
-                        AllowComments = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -42,15 +29,6 @@ namespace CMS.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
-            
-            CreateTable(
-                "dbo.Tags",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Name = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -114,10 +92,8 @@ namespace CMS.Migrations
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Tags");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Posts");
         }
     }
 }

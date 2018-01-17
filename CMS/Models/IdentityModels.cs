@@ -30,9 +30,6 @@ namespace CMS.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<GeneralSettings> GeneralSettings { get; set; }
-        public DbSet<Layout> Layouts { get; set; }
+
     }
 }
