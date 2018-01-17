@@ -15,6 +15,6 @@ namespace CMS.Models
         public string Description { get; set; }
         public string Content { get; set; }
         public bool AllowComments { get; set; }
-        public Lazy<Tag> Tags { get; set; }
+        public virtual ICollection<Tag> Courses { get; set; }
     }
 }

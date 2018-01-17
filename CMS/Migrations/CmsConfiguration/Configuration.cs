@@ -8,7 +8,7 @@ namespace CMS.Migrations.CmsConfiguration
     internal sealed class Configuration : DbMigrationsConfiguration<CMS.CMSContext.Context>
     {
         //Update-Database -ConfigurationTypeName CMS.Migrations.CmsConfiguration.Configuration
-
+        //Add-Migration -ConfigurationTypeName CMS.Migrations.CmsConfiguration.Configuration changeInPostModel
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;

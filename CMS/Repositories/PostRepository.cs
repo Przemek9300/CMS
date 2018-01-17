@@ -21,8 +21,6 @@ namespace CMS.Repositories
             _repository.Posts.Add(post);
         }
 
-
-
         public Post GetPostByID(Guid id)
         {
             return _repository.Posts.First(x => x.Id.Equals(id));

@@ -8,6 +8,7 @@ namespace CMS.Migrations.ApplicationDb
     internal sealed class Configuration : DbMigrationsConfiguration<CMS.Models.ApplicationDbContext>
     {
         //Update-Database -ConfigurationTypeName CMS.Migrations.ApplicationDb.Configuration
+        //Add-Migration -ConfigurationTypeName CMS.Migrations.CmsConfiguration.Configuration NAME
 
 
         public Configuration()

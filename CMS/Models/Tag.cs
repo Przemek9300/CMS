@@ -11,6 +11,7 @@ namespace CMS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public virtual ICollection<Post> Courses { get; set; }
 
     }
 }
