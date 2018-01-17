@@ -11,14 +11,16 @@ namespace CMS.Repositories
     public class TagRepository:ITagRepository
     {
         private Context _repository;
-        public TagRepository(Context repository)
+        public TagRepository()
         {
-            _repository = repository;
+            _repository = new Context();
         }
 
         public void AddTag(Tag tag)
         {
+            tag.Id = Guid.NewGuid();
             _repository.Tags.Add(tag);
+            _repository.SaveChanges();
         }
 
         public void DeleteTag(Tag tag)
@@ -47,6 +49,11 @@ namespace CMS.Repositories
         public List<Tag> GetTagByName(string name)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Tag> GetTags()
+        {
+            return _repository.Tags.Select(row => row).ToList();
         }
 
         public void ModifyTag(Tag tag)

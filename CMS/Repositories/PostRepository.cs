@@ -11,9 +11,9 @@ namespace CMS.Repositories
     public class PostRepository:IPostRepository
     {
         private Context _repository;
-        public PostRepository(Context repository)
+        public PostRepository()
         {
-            _repository = repository;
+            _repository = new Context();
         }
 
         public void AddPost(Post post)
