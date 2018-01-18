@@ -12,11 +12,13 @@ namespace CMS.Repositories
 
         Tag GetTagByID(Guid id);
         List<Tag> GetTagByName(String name);
+        List<Tag> GetTagsByPost(Guid id);
         void AddTag(Tag tag);
         void DeleteTagById(Guid id);
         void DeleteTag(Tag tag);
         void ModifyTag(Tag tag);
         List<Tag> GetTags();
+        void SaveChanges();
 
 
     }

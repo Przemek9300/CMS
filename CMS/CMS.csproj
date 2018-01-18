@@ -207,9 +207,9 @@
     <Compile Include="Migrations\201801051206090_init.Designer.cs">
       <DependentUpon>201801051206090_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801171027360_changeInPostModel.cs" />
-    <Compile Include="Migrations\201801171027360_changeInPostModel.Designer.cs">
-      <DependentUpon>201801171027360_changeInPostModel.cs</DependentUpon>
+    <Compile Include="Migrations\201801181023087_addExtraFieldsToPost.cs" />
+    <Compile Include="Migrations\201801181023087_addExtraFieldsToPost.Designer.cs">
+      <DependentUpon>201801181023087_addExtraFieldsToPost.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\CmsConfiguration\Configuration.cs" />
     <Compile Include="Migrations\ApplicationDb\Configuration.cs" />
@@ -290,10 +290,14 @@
     <Content Include="Views\Tag\Create.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Details.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
+    <Content Include="Views\Post\Create.cshtml" />
+    <Content Include="Views\Post\Delete.cshtml" />
+    <Content Include="Views\Post\Details.cshtml" />
+    <Content Include="Views\Post\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Post\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -317,8 +321,8 @@
     <EmbeddedResource Include="Migrations\201801051206090_init.resx">
       <DependentUpon>201801051206090_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801171027360_changeInPostModel.resx">
-      <DependentUpon>201801171027360_changeInPostModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801181023087_addExtraFieldsToPost.resx">
+      <DependentUpon>201801181023087_addExtraFieldsToPost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

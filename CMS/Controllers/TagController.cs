@@ -49,7 +49,10 @@ namespace CMS.Controllers
             {
                 using (var _repository = new TagRepository())
                 {
+                    if (!tag.Name.StartsWith("#"))
+                        tag.Name = "#" + tag.Name;
                     _repository.AddTag(tag);
+                    _repository.SaveChanges();
                     // TODO: Add insert logic here
                 }
                 return RedirectToAction("Index");

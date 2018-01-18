@@ -7,13 +7,13 @@ namespace CMS.Migrations.CmsConfiguration
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class changeInPostModel : IMigrationMetadata
+    public sealed partial class addExtraFieldsToPost : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(changeInPostModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addExtraFieldsToPost));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801171027360_changeInPostModel"; }
+            get { return "201801181023087_addExtraFieldsToPost"; }
         }
         
         string IMigrationMetadata.Source

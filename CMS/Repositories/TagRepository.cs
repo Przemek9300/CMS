@@ -51,6 +51,11 @@ namespace CMS.Repositories
             throw new NotImplementedException();
         }
 
+        public List<Tag> GetTagsByPost(Guid id)
+        {
+            return _repository.Tags.Where<Tag>(x => x.Posts.Any(y => y.Id == id)).ToList();
+        }
+
         public List<Tag> GetTags()
         {
             return _repository.Tags.Select(row => row).ToList();
@@ -59,6 +64,11 @@ namespace CMS.Repositories
         public void ModifyTag(Tag tag)
         {
             throw new NotImplementedException();
+        }
+
+        public void SaveChanges()
+        {
+            _repository.SaveChanges();
         }
     }
 }

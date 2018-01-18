@@ -50,7 +50,30 @@ namespace CMS.Repositories
 
         public void ModifyPost(Post post)
         {
-            ;
+            post.ModifyAt = DateTime.Now;
+            var p = GetPostByID(post.Id);
+            _repository.Entry(p).CurrentValues.SetValues(post);
+            
+        }
+
+        public List<Post> GetPostsByQueryTag(string tag)
+        {
+            return _repository.Posts.Where<Post>(X => X.Tags.Any(y => y.Name.Contains(tag))).ToList();
+        }
+
+        public List<Post> GetPostsByTag(string tag)
+        {
+            return _repository.Posts.Where<Post>(X => X.Tags.Any(y => y.Name==tag)).ToList();
+        }
+
+        public List<Post> GetPosts()
+        {
+            return _repository.Posts.Select(x => x).ToList();
+        }
+
+        public void SaveChanges()
+        {
+            _repository.SaveChanges();
         }
     }
 }
