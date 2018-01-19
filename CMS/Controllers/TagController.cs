@@ -1,8 +1,11 @@
-﻿using CMS.Models;
+﻿using CMS.CMSContext;
+using CMS.Models;
 using CMS.Repositories;
+using CMS.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,9 +17,9 @@ namespace CMS.Controllers
         public ActionResult Index()
         {
             List<Tag> Tags;
-            using (var repository = new TagRepository())
+            using (var repository = new UoW(new Context()))
             {
-                Tags = repository.GetTags();
+                Tags = repository.TagRepository.GetTags();
             }
 
             return View(Tags);
@@ -26,9 +29,9 @@ namespace CMS.Controllers
         // GET: Tag/Details/5
         public ActionResult Details(Guid id)
         {
-            using (var repository = new TagRepository())
+            using (var repository = new UoW(new Context()))
             {
-                var tag = repository.GetTagByID(id);
+                var tag = repository.TagRepository.GetTagByID(id);
                 return View(tag);
             }
             
@@ -42,17 +45,17 @@ namespace CMS.Controllers
 
         // POST: Tag/Create
         [HttpPost]
-        public ActionResult Create(Tag tag)
+        public async Task<ActionResult> Create(Tag tag)
         {
 
             try
             {
-                using (var _repository = new TagRepository())
+                using (var repository = new UoW(new Context()))
                 {
                     if (!tag.Name.StartsWith("#"))
                         tag.Name = "#" + tag.Name;
-                    _repository.AddTag(tag);
-                    _repository.SaveChanges();
+                    repository.TagRepository.AddTag(tag);
+                    await repository.SaveAsync();
                     // TODO: Add insert logic here
                 }
                 return RedirectToAction("Index");

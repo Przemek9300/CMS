@@ -18,7 +18,6 @@ namespace CMS.Repositories
         void DeleteTag(Tag tag);
         void ModifyTag(Tag tag);
         List<Tag> GetTags();
-        void SaveChanges();
 
 
     }

@@ -10,10 +10,10 @@ namespace CMS.Repositories
 
     public class TagRepository:ITagRepository
     {
-        private Context _repository;
-        public TagRepository()
+        private readonly Context _repository;
+        public TagRepository(Context repository)
         {
-            _repository = new Context();
+            _repository = repository;
         }
 
         public void AddTag(Tag tag)
@@ -66,9 +66,5 @@ namespace CMS.Repositories
             throw new NotImplementedException();
         }
 
-        public void SaveChanges()
-        {
-            _repository.SaveChanges();
-        }
     }
 }

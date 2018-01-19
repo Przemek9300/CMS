@@ -228,6 +228,7 @@
     <Compile Include="Services\GeneralSettingsService.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UnitOfWork\UoW.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

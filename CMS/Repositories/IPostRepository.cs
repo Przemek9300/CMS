@@ -18,7 +18,7 @@ namespace CMS.Repositories
         void DeletePostById(Guid id);
         void DeletePost(Post post);
         void ModifyPost(Post post);
-        void SaveChanges();
+
 
 
     }

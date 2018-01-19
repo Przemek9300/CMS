@@ -1,8 +1,11 @@
-﻿using CMS.Models;
+﻿using CMS.CMSContext;
+using CMS.Models;
 using CMS.Repositories;
+using CMS.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,9 +19,9 @@ namespace CMS.Controllers
         public ActionResult Index()
         {
             List<Post> posts;
-            using (var context = new PostRepository())
+            using (var context = new UoW(new Context()))
             {
-                posts = context.GetPosts();
+                posts = context.PostRepository.GetPosts();
             }
             return View(posts);
         }
@@ -26,9 +29,9 @@ namespace CMS.Controllers
         // GET: Post/Details/5
         public ActionResult Details(Guid id)
         {
-            using (var context = new PostRepository())
+            using (var context = new UoW(new Context()))
             {
-                var post = context.GetPostByID(id);
+                var post = context.PostRepository.GetPostByID(id);
                 return View(post);
             }
         }
@@ -41,20 +44,20 @@ namespace CMS.Controllers
 
         // POST: Post/Create
         [HttpPost]
-        public ActionResult Create(Post post)
+        public async Task<ActionResult> Create(Post post)
         {
             try
             {
                 // TODO: Add insert logic here
-                using (var context = new PostRepository())
+                using (var context = new UoW(new Context()))
                 {
 
                     if (post != null)
                     {
                         post.Id = Guid.NewGuid();
                         post.PublishAt = DateTime.Now;
-                        context.AddPost(post);
-                        context.SaveChanges();
+                        context.PostRepository.AddPost(post);
+                       await context.SaveAsync();
                     }
                 }
                 return RedirectToAction("Index");
@@ -68,9 +71,9 @@ namespace CMS.Controllers
         // GET: Post/Edit/5
         public ActionResult Edit(Guid id)
         {
-            using (var context = new PostRepository())
+            using (var context = new UoW(new Context()))
             {
-                var post = context.GetPostByID(id);
+                var post = context.PostRepository.GetPostByID(id);
                      return View(post);
             }
            
@@ -78,14 +81,14 @@ namespace CMS.Controllers
 
         // POST: Post/Edit/5
         [HttpPost]
-        public ActionResult Edit(Guid id, Post post)
+        public async Task<ActionResult> Edit(Guid id, Post post)
         {
             try
             {
-                using(var context = new PostRepository())
+                using (var context = new UoW(new Context()))
                 {
-                    context.ModifyPost(post);
-                    context.SaveChanges();
+                    context.PostRepository.ModifyPost(post);
+                    await context.SaveAsync();
                 }
 
 
@@ -106,17 +109,17 @@ namespace CMS.Controllers
 
         // POST: Post/Delete/5
         [HttpPost]
-        public ActionResult Delete(Guid id, FormCollection collection)
+        public async Task<ActionResult> Delete(Guid id, FormCollection collection)
         {
             try
             {
-                using (var context = new PostRepository())
+                using (var context = new UoW(new Context()))
                 {
-                    var post = context.GetPostByID(id);
+                    var post = context.PostRepository.GetPostByID(id);
                     if (post != null)
                     {
-                        context.DeletePost(post);
-                        context.SaveChanges();
+                        context.PostRepository.DeletePost(post);
+                        await context.SaveAsync();
                     }
                 }
                 // TODO: Add delete logic here

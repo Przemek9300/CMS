@@ -10,10 +10,10 @@ namespace CMS.Repositories
 
     public class PostRepository:IPostRepository
     {
-        private Context _repository;
-        public PostRepository()
+        private readonly Context _repository;
+        public PostRepository(Context repository)
         {
-            _repository = new Context();
+            _repository = repository;
         }
 
         public void AddPost(Post post)
@@ -71,9 +71,5 @@ namespace CMS.Repositories
             return _repository.Posts.Select(x => x).ToList();
         }
 
-        public void SaveChanges()
-        {
-            _repository.SaveChanges();
-        }
     }
 }
