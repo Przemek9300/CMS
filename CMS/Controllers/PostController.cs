@@ -24,7 +24,7 @@ namespace CMS.Controllers
             {
                 posts = context.PostRepository.GetPosts();
             }
-            return View(posts);
+            return View(posts.OrderByDescending(x=>x.PublishAt));
         }
 
         // GET: Post/Details/5

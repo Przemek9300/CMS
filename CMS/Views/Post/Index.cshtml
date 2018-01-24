@@ -10,31 +10,57 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <div class="container">
-
+ 
     <div class="row">
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
             <h1 class="my-4">
-               Aktualności:
+              AKTUALNOŚĆI
             </h1>
 
             <!-- Blog Post -->
             @foreach(var item in Model) { 
             <div class="card mb-4">
-                <div class="icon-wrapper"><i class="fa fa-users custom-icon"><span class="fix-editor">&nbsp;</span></i></div>
+                <div class="icon-wrapper">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+
+                    </span>
+                </div>
                 <div class="card-body">
-                    <h2 class="card-title text-uppercase ">@item.Title</h2>
-                    <p class="card-text">@item.Description</p>
-                    
+                    <article>
+                        <h2 class="card-title ">@item.Title.ToUpper()</h2>
+                        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                        <blockquote>@item.Description</blockquote>
+                    </article>
+
                 </div>
-                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
                 <div class="card-footer text-muted">
-                    @item.PublishAt
                     
                 </div>
-                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                <a href="#" class="btn btn-default">Read More &rarr;</a>
+                <div class="icon-wrapper">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-user fa-stack-1x"></i>
+
+                    </span>
+                    @item.Author
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-clock-o fa-stack-1x"></i>
+                    </span>
+                    @item.PublishAt.ToString("dd MMMM yy")
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle-thin fa-stack-2x"></i>
+                        <i class="fa fa-comment-o fa-stack-1x"></i>
+
+                    </span>
+                    0
+                </div>
             </div>
             }
             
