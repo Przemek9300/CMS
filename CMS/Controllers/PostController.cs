@@ -2,6 +2,7 @@
 using CMS.Models;
 using CMS.Repositories;
 using CMS.UnitOfWork;
+using CMS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,17 @@ namespace CMS.Controllers
         // GET: Post/Create
         public ActionResult Create()
         {
-            return View();
+            var post = new PostViewModel();
+            using (var context = new UoW(new Context()))
+            {
+                post.Tags = context.TagRepository.GetTags();
+            }
+            return View(post);
         }
 
         // POST: Post/Create
         [HttpPost]
-        public async Task<ActionResult> Create(Post post)
+        public async Task<ActionResult> Create(PostViewModel post)
         {
             try
             {
@@ -56,7 +62,19 @@ namespace CMS.Controllers
                     {
                         post.Id = Guid.NewGuid();
                         post.PublishAt = DateTime.Now;
-                        context.PostRepository.AddPost(post);
+                        context.PostRepository.AddPost(new Post
+                        {
+                            Title = post.Title,
+                            AllowComments = post.AllowComments,
+                            Author = post.Author,
+                            Content = post.Content,
+                            Description = post.Description,
+                            Id = post.Id,
+                            ImageUrl = post.ImageUrl,
+                            PublishAt = post.PublishAt,
+                            Tags =  context.TagRepository.GetTags()
+                    });
+
                        await context.SaveAsync();
                     }
                 }
@@ -120,7 +138,7 @@ namespace CMS.Controllers
                     {
                         context.PostRepository.DeletePost(post);
                         await context.SaveAsync();
-                    }
+                    };
                 }
                 // TODO: Add delete logic here
 
