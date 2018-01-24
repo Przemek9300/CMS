@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.post-format {
+    display: inline-block;
+    text-align: center;
+    font-size: 18px;
+    width: 40px;
+    line-height: 34px;
+    padding: 0;
+    background: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+}
