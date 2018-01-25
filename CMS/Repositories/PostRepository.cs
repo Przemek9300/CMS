@@ -52,6 +52,7 @@ namespace CMS.Repositories
         {
             post.ModifyAt = DateTime.Now;
             var p = GetPostByID(post.Id);
+            post.PublishAt = p.PublishAt;
             _repository.Entry(p).CurrentValues.SetValues(post);
             
         }

@@ -215,6 +215,10 @@
     <Compile Include="Migrations\201801181023087_addExtraFieldsToPost.Designer.cs">
       <DependentUpon>201801181023087_addExtraFieldsToPost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801250741356_addExtraPropertyToGeneralSettings.cs" />
+    <Compile Include="Migrations\201801250741356_addExtraPropertyToGeneralSettings.Designer.cs">
+      <DependentUpon>201801250741356_addExtraPropertyToGeneralSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\CmsConfiguration\Configuration.cs" />
     <Compile Include="Migrations\ApplicationDb\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Services\GeneralSettingsService.cs" />
+    <Compile Include="Services\ImageSerivce.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UnitOfWork\UoW.cs" />
@@ -308,6 +313,7 @@
     <Content Include="Views\Post\Delete.cshtml" />
     <Content Include="Views\Post\Edit.cshtml" />
     <Content Include="Views\Post\Details.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -336,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801181023087_addExtraFieldsToPost.resx">
       <DependentUpon>201801181023087_addExtraFieldsToPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801250741356_addExtraPropertyToGeneralSettings.resx">
+      <DependentUpon>201801250741356_addExtraPropertyToGeneralSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

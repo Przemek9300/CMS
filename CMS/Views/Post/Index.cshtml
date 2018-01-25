@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CMS.Models.Post>
+﻿@model IEnumerable<CMS.ViewModels.PostViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -19,6 +19,7 @@
             <h1 class="my-4">
               AKTUALNOŚĆI
             </h1>
+            <hr />
 
             <!-- Blog Post -->
             @foreach(var item in Model) { 
@@ -33,7 +34,7 @@
                 <div class="card-body">
                     <article>
                         <h2 class="card-title ">@item.Title.ToUpper()</h2>
-                        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                        <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
                         <blockquote>@item.Description</blockquote>
                     </article>
 
@@ -41,12 +42,16 @@
                 <div class="card-footer text-muted">
                     
                 </div>
-                <a href="#" class="btn btn-default">Read More &rarr;</a>
+                @Html.ActionLink("Czytaj dalej...", "Details", new { id = @item.Id }, new { @class= "btn btn-default" }) 
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edytuj Post", "Edit", new { id = @item.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Usuń Post", "Delete", new { id = @item.Id }, new { @class = "btn btn-default" })
+                }
                 <div class="icon-wrapper">
                     <span class="fa-stack fa-lg">
                         <i class="fa fa-circle-thin fa-stack-2x"></i>
                         <i class="fa fa-user fa-stack-1x"></i>
-
                     </span>
                     @item.Author
                     <span class="fa-stack fa-lg">
@@ -57,11 +62,16 @@
                     <span class="fa-stack fa-lg">
                         <i class="fa fa-circle-thin fa-stack-2x"></i>
                         <i class="fa fa-comment-o fa-stack-1x"></i>
-
+                        
                     </span>
                     0
+                    @foreach(var tag in item.Tags)
+                    {
+                        <p>@tag.Name</p>
+                    }
                 </div>
             </div>
+            <hr />
             }
             
 

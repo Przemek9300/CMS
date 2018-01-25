@@ -10,6 +10,8 @@ namespace CMS.Models
     {
         [Key]
         public Guid Id { get; set; }
+        public string ApplicationName { get; set; }
+        public string LogoUrl { get; set; }
         public bool CommentsSections { get; set; }
         public int ArticlesInOneView { get; set; }
         public virtual Layout Layout { get; set; }
