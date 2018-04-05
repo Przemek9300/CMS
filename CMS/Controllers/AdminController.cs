@@ -1,9 +1,11 @@
 ﻿using CMS.CMSContext;
+using CMS.Models;
 using CMS.UnitOfWork;
 using CMS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -36,13 +38,32 @@ namespace CMS.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(GeneralSettingsViewModel collection)
+        public async Task<ActionResult> Create(GeneralSettingsViewModel collection)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(collection);
+            }
+
             try
             {
-               using(var context = new UoW(new Context())) {
-                   
+                
+                    using (var context = new UoW(new Context())) {
 
+                        context.GeneralSettings.AddConfig(
+                            new GeneralSettings
+                            {
+                                ApplicationName = collection.ApplicationName,
+                                ArticlesInOneView = collection.ArticlesInOneView,
+                                CommentsSections = collection.CommentsSections,
+                                Id = collection.Id,
+                                Layout = collection.Layout,
+                                LogoUrl = collection.LogoUrl
+                            }
+
+                            
+                            );
+                    await context.SaveAsync();
 
 
                 }
