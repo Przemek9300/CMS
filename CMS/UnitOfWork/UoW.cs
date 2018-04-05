@@ -47,6 +47,20 @@ namespace CMS.UnitOfWork
                 return _tagRepository;
             }
         }
+        private GeneralSettingsRepository _generalSettings;
+        public GeneralSettingsRepository GeneralSettings
+        {
+            get
+            {
+                if (_generalSettings == null)
+                {
+                    _generalSettings = new GeneralSettingsRepository(_context);
+                }
+
+                return _generalSettings;
+            }
+        }
+
 
         public void Dispose()
         {

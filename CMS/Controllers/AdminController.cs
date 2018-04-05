@@ -1,4 +1,6 @@
 ﻿using CMS.CMSContext;
+using CMS.UnitOfWork;
+using CMS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +36,16 @@ namespace CMS.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(GeneralSettingsViewModel collection)
         {
             try
             {
-                // TODO: Add insert logic here
+               using(var context = new UoW(new Context())) {
+                   
+
+
+
+                }
 
                 return RedirectToAction("Index");
             }
