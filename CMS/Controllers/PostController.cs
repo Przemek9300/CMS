@@ -34,7 +34,7 @@ namespace CMS.Controllers
                         Author = Vpost.Author,
                         Content = Vpost.Content,
                         Description = Vpost.Description,
-                        Id = Vpost.Id,
+                        Id = Vpost.Id.ToString(),
                         ImageUrl = Vpost.ImageUrl,
                         PublishAt = Vpost.PublishAt,
                         Tags = Vpost.Tags.ToList()
@@ -64,8 +64,14 @@ namespace CMS.Controllers
             var post = new PostViewModel();
             using (var context = new UoW(new Context()))
             {
-                post.Tags = context.TagRepository.GetTags();
+
+                var list = context.TagRepository.GetTags().Select(c => new {
+                    Id = c.Id,
+                    Value = c.Name
+                }).ToList();
+                post.Options = new MultiSelectList(list, "Id", "Value");
             }
+           
             return View(post);
         }
 
@@ -89,10 +95,12 @@ namespace CMS.Controllers
 
                     using (var context = new UoW(new Context()))
                     {
-
+                        var listTags = new List<Tag>();
+                        foreach (var tag in post.SelectedOptions)
+                            listTags.Add(context.TagRepository.GetTagByID(Guid.Parse(tag)));
                         if (post != null)
                         {
-                            post.Id = Guid.NewGuid();
+                            post.Id = Guid.NewGuid().ToString();
                             post.PublishAt = DateTime.Now;
                             context.PostRepository.AddPost(new Post
                             {
@@ -101,10 +109,10 @@ namespace CMS.Controllers
                                 Author = post.Author,
                                 Content = post.Content,
                                 Description = post.Description,
-                                Id = post.Id,
+                                Id = Guid.Parse(post.Id),
                                 ImageUrl = serverPath,
                                 PublishAt = post.PublishAt,
-                                Tags = context.TagRepository.GetTags().ToList()
+                                Tags = listTags
                             });
 
                             await context.SaveAsync();
@@ -117,8 +125,9 @@ namespace CMS.Controllers
                 return RedirectToAction("Index");
             }
 
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
                 return View();
             }
         }

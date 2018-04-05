@@ -53,12 +53,12 @@
                 @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-            @Html.DropDownListFor(n => n.Tags, new MultiSelectList(Model.Tags, "Id", "Name", Model.Tags), "Please select an order template")                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            @Html.ListBoxFor(s => s.SelectedOptions, Model.Options)
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -69,6 +69,17 @@
                 </div>
             </div>
         </div>
+
+                @*<div class="form-group">
+            @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">                    
+                    @Html.DropDownList(Model., Model.Tags.Select(x=>new SelectListItem {Text = x.Name }), new { @class = "control-label col-md-2" }))
+
+                </div>
+            </div>
+        </div>*@
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
