@@ -119,5 +119,41 @@ namespace CMS.Controllers
                 return View();
             }
         }
+        public ActionResult Chart()
+        {
+            using (var context = new Context())
+            {
+                
+                return View();
+            }
+
+        }
+        public ActionResult Themes()
+        {
+            using (var context = new Context())
+            {
+
+                return View();
+            }
+
+        }
+        public ActionResult Roles()
+        {
+            using (var context = new Context())
+            {
+
+                return View();
+            }
+
+        }
+        public ActionResult Settings()
+        {
+            using (var context = new Context())
+            {
+
+                return View();
+            }
+
+        }
     }
 }

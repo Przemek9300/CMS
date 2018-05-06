@@ -1,7 +1,7 @@
-﻿body {
+﻿/*body {
     padding-top: 50px;
     padding-bottom: 20px;
-}
+}*/
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -34,4 +34,186 @@ textarea {
     color: #666;
     border: 1px solid #ddd;
     border-radius: 50%;
+}
+.vertical-menu {
+    width: 200px; /* Set a width if you like */
+}
+
+    .vertical-menu a {
+        background-color: #eee; /* Grey background color */
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+    }
+
+        .vertical-menu a:hover {
+            background-color: #ccc; /* Dark grey background on mouse-over */
+        }
+
+        .vertical-menu a.active {
+            background-color: #4CAF50; /* Add a green color to the "active/current" link */
+            color: white;
+        }
+#cssmenu {
+    position:fixed;
+    background: #333;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 12em;
+    height: 100%;
+    top:0px
+}
+
+    #cssmenu li {
+        font: 80.5% "Lucida Sans Unicode", "Bitstream Vera Sans", "Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    #cssmenu a {
+        background: #333;
+        border-bottom: 1px solid #393939;
+        color: #ccc;
+        display: block;
+        margin: 0;
+        padding: 8px 12px;
+        text-decoration: none;
+        font-weight: normal;
+        top:0px;
+    }
+
+        #cssmenu a:hover {
+            background: #2580a2 url("images/hover.gif") left center no-repeat;
+            color: #fff;
+            padding-bottom: 8px;
+        }
+        bodyAdmin{
+            padding-top:0px
+        }
+
+        wrapper{
+            padding-left:12em;
+        }
+icon {
+    position: relative;
+    /* Adjust these values accordingly */
+    top: 5px;
+    left: 5px;
+}
+.wrapper {
+    display: flex;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    top:0px;
+    min-width: 250px;
+    max-width: 250px;
+    background: #333;
+    color: #333;
+    transition: all 0.3s;
+}
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background: #333
+    }
+
+    #sidebar ul.components {
+        padding: 20px 0;
+        border-bottom: 1px solid #47748b;
+    }
+
+    #sidebar ul p {
+        color: #fff;
+        padding: 10px;
+    }
+    #sidebar h3 {
+        color: #fff;
+        padding: 10px;
+    }
+
+    #sidebar ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+        color:white
+    }
+
+        #sidebar ul li a:hover {
+            color: #7386D5;
+            background: #353b48;
+        }
+
+    #sidebar ul li.active > a, a[aria-expanded="true"] {
+        color: #dcdde1;
+        background: #353b48;
+    }
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: ##353b48;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+    ul.CTAs a {
+        text-align: center;
+        font-size: 0.9em !important;
+        display: block;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
 }

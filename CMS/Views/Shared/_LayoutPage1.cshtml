@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontawesome")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+   
+
+    <div class="wrapper">
+
+        <nav id="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <h3>@User.Identity.Name.Split('@')[0]</h3>
+                <a>Administrator</a>
+            </div>
+
+
+            <!-- Sidebar Links -->
+            <ul class="list-unstyled components">
+                <li class="active"><a href="#">Dom</a></li>
+                <li><a href="#">Ustawienia</a></li>
+
+                <li>
+                    <!-- Link with dropdown items -->
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Podstrony</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li> <a href="#">Zakładka1</a></li>
+                        <li><a href="#">Zakładka2</a></li>
+                        <li><a href="#">Zakładka3</a></li>
+                    </ul>
+
+                <li><a href="#">Motyw</a></li>
+                <li><a href="#">Role</a></li>
+                <li><a href="#">Statystki</a></li>
+            </ul>
+        </nav>
+        <div id="content">
+            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                <i class="glyphicon glyphicon-align-left"></i>
+                Toggle Sidebar
+            </button>
+            @RenderBody()
+        </div>
+        </div>
+
+
+
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+         });
+    </script>
+
+</body>
+</html>
