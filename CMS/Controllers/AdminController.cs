@@ -1,5 +1,6 @@
 ﻿using CMS.CMSContext;
 using CMS.Models;
+using CMS.Services;
 using CMS.UnitOfWork;
 using CMS.ViewModels;
 using System;
@@ -13,14 +14,19 @@ namespace CMS.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IGeneralSettingsSerivce setting;
+
+        public AdminController(IGeneralSettingsSerivce setting)
+        {
+            this.setting = setting;
+        }
         // GET: Admin
         public ActionResult Index()
         {
-            using (var context = new Context())
-            {
-                var s = context.GeneralSettings.ToList();
+
+            var s = setting.GetSetting();
                 return View(s);
-            }
+           
 
         }
 
@@ -47,26 +53,24 @@ namespace CMS.Controllers
 
             try
             {
+
+
+
+                setting.AddSetting(
+                    new GeneralSettings
+                    {
+                        ApplicationName = collection.ApplicationName,
+                        ArticlesInOneView = collection.ArticlesInOneView,
+                        CommentsSections = collection.CommentsSections,
+                        Id = collection.Id,
+                        Layout = collection.Layout,
+                        LogoUrl = collection.LogoUrl
+                    });
+
+
+
+
                 
-                    using (var context = new UoW(new Context())) {
-
-                        context.GeneralSettings.AddConfig(
-                            new GeneralSettings
-                            {
-                                ApplicationName = collection.ApplicationName,
-                                ArticlesInOneView = collection.ArticlesInOneView,
-                                CommentsSections = collection.CommentsSections,
-                                Id = collection.Id,
-                                Layout = collection.Layout,
-                                LogoUrl = collection.LogoUrl
-                            }
-
-                            
-                            );
-                    await context.SaveAsync();
-
-
-                }
 
                 return RedirectToAction("Index");
             }
@@ -155,5 +159,54 @@ namespace CMS.Controllers
             }
 
         }
+        public ActionResult SubPage(int id)
+        {
+
+                ViewBag.id = id;
+                return View();
+            
+
+        }
+        [HttpPost]
+        public ActionResult SubPage(SubPage page, int? id)
+        {
+            if (ModelState.IsValid)
+            {
+ 
+                    var config = setting.GetSetting();
+                    switch (id)
+                    {
+                        default:
+                            config.Page1 = page;
+                            break;
+                        case 1:
+                            config.Page1 = page;
+                            break;
+
+
+                        case 2:
+                            config.Page2 = page;
+                            break;
+
+                        case 3:
+                            config.Page3 = page;
+                            break;
+
+                        case 4:
+                            config.Page4 = page;
+                            break;
+                    }
+                    setting.AddSetting(config);
+                    if (id >= 4)
+                        return RedirectToAction("Themes", "Admin");
+                    return RedirectToAction("SubPage", "Admin", new { id = id + 1 });
+                }
+            
+            return View(page);
+
+        }
+
+
+
     }
 }

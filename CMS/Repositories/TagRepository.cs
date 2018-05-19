@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CMS.Models;
+using System.Threading.Tasks;
 
 namespace CMS.Repositories
 {
@@ -66,5 +67,12 @@ namespace CMS.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task SaveAsync()
+        {
+
+            await _repository.SaveChangesAsync();
+
+        }
     }
+
 }

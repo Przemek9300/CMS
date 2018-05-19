@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Repositories
 {
-    interface ITagRepository:IDisposable
+   public interface ITagRepository:IDisposable
     {
 
         Tag GetTagByID(Guid id);
@@ -18,6 +18,8 @@ namespace CMS.Repositories
         void DeleteTagById(Guid id);
         void DeleteTag(Tag tag);
         void ModifyTag(Tag tag);
+        Task  SaveAsync();
+
         List<Tag> GetTags();
 
 

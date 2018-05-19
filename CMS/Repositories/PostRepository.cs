@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CMS.Models;
+using System.Threading.Tasks;
 
 namespace CMS.Repositories
 {
+
 
     public class PostRepository:IPostRepository
     {
@@ -71,6 +73,13 @@ namespace CMS.Repositories
         {
             return _repository.Posts.Select(x => x).ToList();
         }
+        public async Task SaveAsync()
+        {
+
+            await _repository.SaveChangesAsync();
+
+        }
+
 
     }
 }

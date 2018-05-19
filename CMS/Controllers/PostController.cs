@@ -17,14 +17,22 @@ namespace CMS.Controllers
     [Authorize(Roles = "Admin")]
     public class PostController : Controller
     {
+        private readonly IPostRepository pContext;
+        private readonly ITagRepository tContext;
+
+        public PostController(IPostRepository context, ITagRepository tContext)
+        {
+            this.pContext = context;
+            this.tContext = tContext;
+        }
+
         // GET: Post
         [AllowAnonymous]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             List<PostViewModel> Vposts = new List<PostViewModel>();
-            using (var context = new UoW(new Context()))
-            {
-                var posts = context.PostRepository.GetPosts();
+
+                var posts = pContext.GetPosts();
                 foreach(var Vpost in posts)
                 {
                     Vposts.Add(new PostViewModel
@@ -40,10 +48,12 @@ namespace CMS.Controllers
                         Tags = Vpost.Tags.ToList()
                     });
                             
-
-                }
+                
+                
 
             }
+
+            await pContext.SaveAsync();
             return View(Vposts.OrderByDescending(x=>x.PublishAt));
         }
 
@@ -51,26 +61,24 @@ namespace CMS.Controllers
         [AllowAnonymous]
         public ActionResult Details(Guid id)
         {
-            using (var context = new UoW(new Context()))
-            {
-                var post = context.PostRepository.GetPostByID(id);
+
+                var post = pContext.GetPostByID(id);
                 return View(post);
-            }
+            
         }
 
         // GET: Post/Create
         public ActionResult Create()
         {
             var post = new PostViewModel();
-            using (var context = new UoW(new Context()))
-            {
 
-                var list = context.TagRepository.GetTags().Select(c => new {
+
+                var list = tContext.GetTags().Select(c => new {
                     Id = c.Id,
                     Value = c.Name
                 }).ToList();
                 post.Options = new MultiSelectList(list, "Id", "Value");
-            }
+            
            
             return View(post);
         }
@@ -93,16 +101,16 @@ namespace CMS.Controllers
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
-                    using (var context = new UoW(new Context()))
-                    {
+
                         var listTags = new List<Tag>();
                         foreach (var tag in post.SelectedOptions)
-                            listTags.Add(context.TagRepository.GetTagByID(Guid.Parse(tag)));
+                            listTags.Add(tContext.GetTagByID(Guid.Parse(tag)));
                         if (post != null)
                         {
-                            post.Id = Guid.NewGuid().ToString();
+
+                        post.Id = Guid.NewGuid().ToString();
                             post.PublishAt = DateTime.Now;
-                            context.PostRepository.AddPost(new Post
+                            pContext.AddPost(new Post
                             {
                                 Title = post.Title,
                                 AllowComments = post.AllowComments,
@@ -115,11 +123,11 @@ namespace CMS.Controllers
                                 Tags = listTags
                             });
 
-                            await context.SaveAsync();
+                            await pContext.SaveAsync();
                             file.SaveAs(path);
                         }
                         
-                    }
+                    
                 }
 
                 return RedirectToAction("Index");
@@ -136,11 +144,10 @@ namespace CMS.Controllers
         public ActionResult Edit(Guid id)
         {
 
-            using (var context = new UoW(new Context()))
-            {
-                var post = context.PostRepository.GetPostByID(id);
+
+                var post = pContext.GetPostByID(id);
                      return View(post);
-            }
+            
            
         }
 
@@ -160,12 +167,11 @@ namespace CMS.Controllers
 
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
-                    using (var context = new UoW(new Context()))
-                    {
+
                         post.ImageUrl = serverPath;
-                        context.PostRepository.ModifyPost(post);
-                        await context.SaveAsync();
-                    }
+                        pContext.ModifyPost(post);
+                        await pContext.SaveAsync();
+                    
                     file.SaveAs(path);
                 }
 
@@ -192,15 +198,14 @@ namespace CMS.Controllers
         {
             try
             {
-                using (var context = new UoW(new Context()))
-                {
-                    var post = context.PostRepository.GetPostByID(id);
+
+                    var post = pContext.GetPostByID(id);
                     if (post != null)
                     {
-                        context.PostRepository.DeletePost(post);
-                        await context.SaveAsync();
+                        pContext.DeletePost(post);
+                        await pContext.SaveAsync();
                     };
-                }
+                
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");

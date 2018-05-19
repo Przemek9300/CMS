@@ -17,6 +17,7 @@ namespace CMS.CMSContext
         public DbSet<Tag> Tags { get; set; }
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
         public DbSet<Layout> Layouts { get; set; }
+        public DbSet<SubPage> SubPages { get; set; }
 
     }
 }

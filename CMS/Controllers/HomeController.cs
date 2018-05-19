@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CMS.Repositories;
+using CMS.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,12 @@ namespace CMS.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IGeneralSettingsSerivce serivce;
+
+        public HomeController(IGeneralSettingsSerivce serivce)
+        {
+            this.serivce = serivce;
+        }
         public ActionResult Index()
         {
             return View();
@@ -15,7 +23,8 @@ namespace CMS.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+
+            ViewBag.Message = serivce.GetApplicationName();
 
             return View();
         }

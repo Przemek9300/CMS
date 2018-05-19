@@ -1,5 +1,6 @@
 ﻿using CMS.CMSContext;
 using CMS.Models;
+using CMS.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,24 @@ using System.Web;
 
 namespace CMS.Services
 {
-    public static class GeneralSettingsService
+    public  class GeneralSettingsService:IGeneralSettingsSerivce
     {
-        public static void SetLayout(Layout layout)
+        private readonly IGeneralSettingsRepository _settingContext;
+
+        public GeneralSettingsService(IGeneralSettingsRepository settingContext)
+        {
+            _settingContext = settingContext;
+        }
+        public void SetLayout(Layout layout)
         {
             using (Context context = new Context())
             {
-                var settings = context.GeneralSettings.First();
+                var settings = _settingContext.GetConfig();
                 settings.Layout = layout;
                 context.SaveChanges();
             }
         }
-        public static string LoadLayout()
+        public  string LoadLayout()
         {
             using (Context context = new Context())
             {
@@ -29,6 +36,28 @@ namespace CMS.Services
             return "~/Content/site.css";
 
 
+        }
+        public  string GetApplicationName()
+        {
+            using (Context context = new Context())
+            {
+                var settings = context.GeneralSettings.FirstOrDefault();
+                if (settings.ApplicationName != null)
+                    return settings.ApplicationName;
+            }
+            return "Blog";
+
+
+        }
+
+        public GeneralSettings GetSetting()
+        {
+            return _settingContext.GetConfig();
+        }
+
+        public void AddSetting(GeneralSettings c)
+        {
+            _settingContext.AddConfig(c);
         }
     }
  }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Repositories
 {
-    interface IPostRepository:IDisposable
+    public interface IPostRepository:IDisposable
     {
         Post GetPostByID(Guid id);
         List<Post> GetPosts();
@@ -18,6 +18,8 @@ namespace CMS.Repositories
         void DeletePostById(Guid id);
         void DeletePost(Post post);
         void ModifyPost(Post post);
+         Task SaveAsync();
+
 
 
 

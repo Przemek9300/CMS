@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace CMS.Repositories
 {
@@ -16,43 +17,28 @@ namespace CMS.Repositories
         }
         public void AddConfig(GeneralSettings config)
         {
-            //TODO VALIDATION
-            _repository.GeneralSettings.Add(config);
+            var c = _repository.GeneralSettings.FirstOrDefault();
+            if (c == null)
+            {
+                _repository.GeneralSettings.Add(config);
+            }
+            else
+            {
+                _repository.Entry(c).CurrentValues.SetValues(config);
+            }
+            _repository.SaveChanges();
         }
 
-        public void DeleteConfig(GeneralSettings config)
+        public GeneralSettings GetConfig()
         {
-            //TODO CHECK IS EXIST
-            _repository.GeneralSettings.Remove(config);
+            return _repository.GeneralSettings.First();
         }
 
-        public void DeleteConfigById(Guid id)
+        public async Task SaveAsync()
         {
+
+                await _repository.SaveChangesAsync();
             
-
-            
-        }
-
-        public List<GeneralSettings> GetConfigByTitle(string title)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<GeneralSettings> GetConfigs()
-        {
-            return _repository.GeneralSettings.ToList();
-        }
-
-
-        public GeneralSettings GetConfigtByID(Guid id)
-        {
-            return _repository.GeneralSettings.Find(id);
-        }
-
-        public void ModifyConfig(GeneralSettings config)
-        {
-            //TODO
-            throw new NotImplementedException();
         }
     }
 }

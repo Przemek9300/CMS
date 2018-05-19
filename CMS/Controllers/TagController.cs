@@ -5,6 +5,7 @@ using CMS.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -13,27 +14,46 @@ namespace CMS.Controllers
 {
     public class TagController : Controller
     {
+        private readonly ITagRepository tRepostiory;
+        private readonly IPostRepository pRepostiory;
+
         // GET: Tag
+        public TagController(ITagRepository tRepostiory, IPostRepository pRepostiory)
+        {
+            this.tRepostiory = tRepostiory;
+            this.pRepostiory = pRepostiory;
+        }
         public ActionResult Index()
         {
             List<Tag> Tags;
-            using (var repository = new UoW(new Context()))
-            {
-                Tags = repository.TagRepository.GetTags();
-            }
+
+                Tags = tRepostiory.GetTags();
+            
 
             return View(Tags);
 
         }
+        public ActionResult Index1(string tag)
+        {
+            var trueTag = String.Concat("#", tag);
+
+            
+                var posts = pRepostiory.GetPostsByTag(trueTag);
+                return View(posts);
+            
+
+               
+
+        }
+
 
         // GET: Tag/Details/5
         public ActionResult Details(Guid id)
         {
-            using (var repository = new UoW(new Context()))
-            {
-                var tag = repository.TagRepository.GetTagByID(id);
+
+                var tag = tRepostiory.GetTagByID(id);
                 return View(tag);
-            }
+            
             
         }
 
@@ -50,14 +70,13 @@ namespace CMS.Controllers
 
             try
             {
-                using (var repository = new UoW(new Context()))
-                {
+
                     if (!tag.Name.StartsWith("#"))
                         tag.Name = "#" + tag.Name;
-                    repository.TagRepository.AddTag(tag);
-                    await repository.SaveAsync();
+                    tRepostiory.AddTag(tag);
+                    await tRepostiory.SaveAsync();
                     // TODO: Add insert logic here
-                }
+                
                 return RedirectToAction("Index");
             }
             catch

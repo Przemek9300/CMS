@@ -23,21 +23,25 @@
 
             <!-- Sidebar Links -->
             <ul class="list-unstyled components">
-                <li class="active"><a href="#">Dom</a></li>
-                <li><a href="#">Ustawienia</a></li>
+                <li class="active">@Html.ActionLink("Dom", "Index")</li>
+                <li>@Html.ActionLink("Ustawienia","Create")</li>
+               
 
                 <li>
                     <!-- Link with dropdown items -->
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Podstrony</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li> <a href="#">Zakładka1</a></li>
-                        <li><a href="#">Zakładka2</a></li>
-                        <li><a href="#">Zakładka3</a></li>
+                        <li>@Html.ActionLink("Podstrona 1", "SubPage", new { id = 1 })</li>
+                        <li>>@Html.ActionLink("Podstrona 2", "SubPage", new { id = 2 })</li>
+                        <li>>@Html.ActionLink("Podstrona 3", "SubPage", new { id = 3 })</li>
+                        <li>>@Html.ActionLink("Podstrona 3", "SubPage", new { id = 4 })</li>
+
+
                     </ul>
 
-                <li><a href="#">Motyw</a></li>
-                <li><a href="#">Role</a></li>
-                <li><a href="#">Statystki</a></li>
+                <li>@Html.ActionLink("Motywy", "Themes")</li>
+                <li>@Html.ActionLink("Role", "Roles")</li>
+                <li>@Html.ActionLink("Wykresy", "Chart")</li>
             </ul>
         </nav>
         <div id="content">
