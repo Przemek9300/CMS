@@ -141,13 +141,33 @@ namespace CMS.Controllers
             }
 
         }
-        public ActionResult Roles()
+        public ActionResult Roles(string query)
         {
-            using (var context = new Context())
-            {
 
-                return View();
+            var Users = new List<UserViewModel>();
+            if (!String.IsNullOrEmpty(query))
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    var user = context.Users.Where(x => x.Email.Contains(query))
+                        .Select(x=>new UserViewModel{ Email=x.Email,Roles = x.Roles.Select(y=>y.RoleId).ToList() }).ToList();
+                    return View(user);
+                }
+
             }
+            else
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    var user = context.Users
+                    .Select(x => new UserViewModel { Email = x.Email, Roles = x.Roles.Select(y => y.RoleId).ToList() }).ToList();
+                    return View(user);
+                }
+
+            }
+           
+
+            
 
         }
         public ActionResult Settings()

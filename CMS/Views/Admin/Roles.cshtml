@@ -1,8 +1,30 @@
-﻿
+﻿@model List<CMS.Models.ApplicationUser>
 @{
     ViewBag.Title = "Roles";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nazwa Użytkowniak</th>
+            <th>Email</th>
+            <th>Numer Telefonu</th>
+            
 
-<h2>Roles</h2>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Roles.First()</td>
+                </tr>
+
+            }
+    </tbody>
+</table>
+
 

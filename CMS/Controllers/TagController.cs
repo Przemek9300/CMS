@@ -14,20 +14,18 @@ namespace CMS.Controllers
 {
     public class TagController : Controller
     {
-        private readonly ITagRepository tRepostiory;
-        private readonly IPostRepository pRepostiory;
+        private readonly IUoW _Repostiory;
 
         // GET: Tag
-        public TagController(ITagRepository tRepostiory, IPostRepository pRepostiory)
+        public TagController(IUoW _Repostiory)
         {
-            this.tRepostiory = tRepostiory;
-            this.pRepostiory = pRepostiory;
+            this._Repostiory = _Repostiory;
         }
         public ActionResult Index()
         {
             List<Tag> Tags;
 
-                Tags = tRepostiory.GetTags();
+                Tags = _Repostiory.TagRepository.GetTags();
             
 
             return View(Tags);
@@ -35,10 +33,11 @@ namespace CMS.Controllers
         }
         public ActionResult Index1(string tag)
         {
-            var trueTag = String.Concat("#", tag);
+            if(!tag.StartsWith("#"))
+                  tag = String.Concat("#", tag);
 
             
-                var posts = pRepostiory.GetPostsByTag(trueTag);
+                var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
                 return View(posts);
             
 
@@ -51,7 +50,7 @@ namespace CMS.Controllers
         public ActionResult Details(Guid id)
         {
 
-                var tag = tRepostiory.GetTagByID(id);
+                var tag = _Repostiory.TagRepository.GetTagByID(id);
                 return View(tag);
             
             
@@ -73,8 +72,8 @@ namespace CMS.Controllers
 
                     if (!tag.Name.StartsWith("#"))
                         tag.Name = "#" + tag.Name;
-                    tRepostiory.AddTag(tag);
-                    await tRepostiory.SaveAsync();
+                    _Repostiory.TagRepository.AddTag(tag);
+                    await _Repostiory.SaveAsync();
                     // TODO: Add insert logic here
                 
                 return RedirectToAction("Index");

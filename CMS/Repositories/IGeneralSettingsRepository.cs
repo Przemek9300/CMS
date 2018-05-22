@@ -14,5 +14,6 @@ namespace CMS.Repositories
 
 
         Task SaveAsync();
+        SubPage GetPage(int page);
     }
 }

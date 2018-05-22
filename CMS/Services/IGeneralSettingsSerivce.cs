@@ -14,5 +14,7 @@ namespace CMS.Services
         string GetApplicationName();
         GeneralSettings GetSetting();
         void AddSetting(GeneralSettings c);
+        SubPage GetPage(int page);
+
     }
 }

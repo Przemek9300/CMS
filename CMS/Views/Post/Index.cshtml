@@ -67,7 +67,7 @@
                     0
                     @foreach(var tag in item.Tags)
                     {
-                        <p>@tag.Name</p>
+                        @Html.ActionLink(tag.Name,"Index1","Tag",new { tag = tag.Name}, new { @class = "btn btn - light" })
                     }
                 </div>
             </div>

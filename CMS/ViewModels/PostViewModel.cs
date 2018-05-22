@@ -16,6 +16,7 @@ namespace CMS.ViewModels
         public DateTime PublishAt { get; set; }
         public DateTime? ModifyAt { get; set; }
         public string Description { get; set; }
+        [AllowHtml]
         public string Content { get; set; }
         public bool AllowComments { get; set; }
         public MultiSelectList Options { set; get; }

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace CMS.UnitOfWork
 {
-    public class UoW:IDisposable
+    public class UoW:IDisposable,IUoW
     {
 
         private readonly Context _context;
@@ -18,22 +18,9 @@ namespace CMS.UnitOfWork
 
         }
         private PostRepository _postRepository;
-
-        public PostRepository PostRepository
-        {
-            get
-            {
-                if (_postRepository == null)
-                {
-                    _postRepository = new PostRepository(_context);
-                }
-
-                return _postRepository;
-            }
-        }
-
-
         private TagRepository _tagRepository;
+        private GeneralSettingsRepository _generalSettings;
+
 
         public TagRepository TagRepository
         {
@@ -47,8 +34,39 @@ namespace CMS.UnitOfWork
                 return _tagRepository;
             }
         }
-        private GeneralSettingsRepository _generalSettings;
-        public GeneralSettingsRepository GeneralSettings
+        
+
+
+
+
+        PostRepository IUoW.PostRepository
+        {
+            get
+            {
+                if (_postRepository == null)
+                {
+                    _postRepository = new PostRepository(_context);
+                }
+
+                return _postRepository;
+            }
+        }
+
+        TagRepository IUoW.TagRepository
+        {
+            get
+            {
+                if (_tagRepository == null)
+                {
+                    _tagRepository = new TagRepository(_context);
+                }
+
+                return _tagRepository;
+            }
+        }
+
+
+        GeneralSettingsRepository IUoW.GeneralSettingsRepository
         {
             get
             {
@@ -60,6 +78,17 @@ namespace CMS.UnitOfWork
                 return _generalSettings;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
         public void Dispose()

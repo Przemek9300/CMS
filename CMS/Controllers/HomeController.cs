@@ -23,10 +23,10 @@ namespace CMS.Controllers
 
         public ActionResult About()
         {
+            var content = serivce.GetPage(2);
+            
 
-            ViewBag.Message = serivce.GetApplicationName();
-
-            return View();
+            return View(content);
         }
 
         public ActionResult Contact()

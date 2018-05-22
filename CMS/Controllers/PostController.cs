@@ -17,13 +17,11 @@ namespace CMS.Controllers
     [Authorize(Roles = "Admin")]
     public class PostController : Controller
     {
-        private readonly IPostRepository pContext;
-        private readonly ITagRepository tContext;
+        private readonly IUoW _Repostiory;
 
-        public PostController(IPostRepository context, ITagRepository tContext)
+        public PostController(IUoW _repostiory)
         {
-            this.pContext = context;
-            this.tContext = tContext;
+            _Repostiory = _repostiory;
         }
 
         // GET: Post
@@ -32,7 +30,7 @@ namespace CMS.Controllers
         {
             List<PostViewModel> Vposts = new List<PostViewModel>();
 
-                var posts = pContext.GetPosts();
+                var posts = _Repostiory.PostRepository.GetPosts();
                 foreach(var Vpost in posts)
                 {
                     Vposts.Add(new PostViewModel
@@ -53,7 +51,7 @@ namespace CMS.Controllers
 
             }
 
-            await pContext.SaveAsync();
+            await _Repostiory.SaveAsync();
             return View(Vposts.OrderByDescending(x=>x.PublishAt));
         }
 
@@ -62,7 +60,7 @@ namespace CMS.Controllers
         public ActionResult Details(Guid id)
         {
 
-                var post = pContext.GetPostByID(id);
+                var post = _Repostiory.PostRepository.GetPostByID(id);
                 return View(post);
             
         }
@@ -73,7 +71,7 @@ namespace CMS.Controllers
             var post = new PostViewModel();
 
 
-                var list = tContext.GetTags().Select(c => new {
+                var list = _Repostiory.TagRepository.GetTags().Select(c => new {
                     Id = c.Id,
                     Value = c.Name
                 }).ToList();
@@ -103,14 +101,13 @@ namespace CMS.Controllers
 
 
                         var listTags = new List<Tag>();
-                        foreach (var tag in post.SelectedOptions)
-                            listTags.Add(tContext.GetTagByID(Guid.Parse(tag)));
-                        if (post != null)
+                    foreach (var tag in post.SelectedOptions)
+                        listTags.Add(_Repostiory.TagRepository.GetTagByID(Guid.Parse(tag)));
+                    if (post != null)
                         {
-
-                        post.Id = Guid.NewGuid().ToString();
+                            post.Id = Guid.NewGuid().ToString();
                             post.PublishAt = DateTime.Now;
-                            pContext.AddPost(new Post
+                            _Repostiory.PostRepository.AddPost(new Post
                             {
                                 Title = post.Title,
                                 AllowComments = post.AllowComments,
@@ -123,7 +120,7 @@ namespace CMS.Controllers
                                 Tags = listTags
                             });
 
-                            await pContext.SaveAsync();
+                            await _Repostiory.SaveAsync();
                             file.SaveAs(path);
                         }
                         
@@ -145,7 +142,7 @@ namespace CMS.Controllers
         {
 
 
-                var post = pContext.GetPostByID(id);
+                var post = _Repostiory.PostRepository.GetPostByID(id);
                      return View(post);
             
            
@@ -169,8 +166,8 @@ namespace CMS.Controllers
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
                         post.ImageUrl = serverPath;
-                        pContext.ModifyPost(post);
-                        await pContext.SaveAsync();
+                        _Repostiory.PostRepository.ModifyPost(post);
+                        await _Repostiory.SaveAsync();
                     
                     file.SaveAs(path);
                 }
@@ -199,11 +196,11 @@ namespace CMS.Controllers
             try
             {
 
-                    var post = pContext.GetPostByID(id);
+                    var post = _Repostiory.PostRepository.GetPostByID(id);
                     if (post != null)
                     {
-                        pContext.DeletePost(post);
-                        await pContext.SaveAsync();
+                        _Repostiory.PostRepository.DeletePost(post);
+                        await _Repostiory.SaveAsync();
                     };
                 
                 // TODO: Add delete logic here

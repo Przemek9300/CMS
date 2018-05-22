@@ -34,6 +34,23 @@ namespace CMS.Repositories
             return _repository.GeneralSettings.First();
         }
 
+        public SubPage GetPage(int page)
+        {
+            switch (page)
+            {
+                default:
+                    return _repository.GeneralSettings.First().Page1;
+                case 1:
+                    return _repository.GeneralSettings.First().Page1;
+                case 2:
+                    return _repository.GeneralSettings.First().Page2;
+                case 3:
+                    return _repository.GeneralSettings.First().Page3;
+                case 4:
+                    return _repository.GeneralSettings.First().Page4;
+            }
+        }
+
         public async Task SaveAsync()
         {
 

@@ -59,5 +59,10 @@ namespace CMS.Services
         {
             _settingContext.AddConfig(c);
         }
+
+        public SubPage GetPage(int page)
+        {
+            return _settingContext.GetPage(page);
+        }
     }
  }

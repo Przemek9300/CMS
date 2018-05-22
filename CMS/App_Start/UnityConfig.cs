@@ -3,6 +3,7 @@ using CMS.Controllers;
 using CMS.Models;
 using CMS.Repositories;
 using CMS.Services;
+using CMS.UnitOfWork;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Mvc;
@@ -30,7 +31,9 @@ namespace CMS
             container.RegisterType<IGeneralSettingsRepository, GeneralSettingsRepository>();
             container.RegisterType<ITagRepository, TagRepository>();
             container.RegisterType<IGeneralSettingsSerivce, GeneralSettingsService>();
+            container.RegisterType<IUoW, UoW>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+
         }
     }
 }
