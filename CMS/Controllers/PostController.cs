@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace CMS.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class PostController : Controller
+    public class PostController : MyBaseController
     {
         private readonly IUoW _Repostiory;
 
@@ -111,7 +111,7 @@ namespace CMS.Controllers
                             {
                                 Title = post.Title,
                                 AllowComments = post.AllowComments,
-                                Author = post.Author,
+                                Author = User.Identity.Name,
                                 Content = post.Content,
                                 Description = post.Description,
                                 Id = Guid.Parse(post.Id),

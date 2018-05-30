@@ -23,6 +23,7 @@ namespace CMS
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService
+            container.RegisterType<IRoleSerivce, RoleSerivce>();
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<RolesAdminController>(new InjectionConstructor());

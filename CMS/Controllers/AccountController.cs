@@ -13,7 +13,7 @@ using CMS.Models;
 namespace CMS.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : MyBaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

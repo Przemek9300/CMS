@@ -10,6 +10,7 @@ namespace CMS.Services
 {
     public  class GeneralSettingsService:IGeneralSettingsSerivce
     {
+
         private readonly IGeneralSettingsRepository _settingContext;
 
         public GeneralSettingsService(IGeneralSettingsRepository settingContext)
@@ -62,7 +63,14 @@ namespace CMS.Services
 
         public SubPage GetPage(int page)
         {
-            return _settingContext.GetPage(page);
+             var subpage = _settingContext.GetPage(page);
+            if (subpage != null&&!String.IsNullOrEmpty(subpage.Label))
+                return subpage;
+            return new SubPage()
+            {
+                CodeHtml = "empty",
+                Label = "Default"
+            };
         }
     }
  }

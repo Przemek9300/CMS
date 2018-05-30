@@ -1,4 +1,5 @@
-﻿using CMS.Repositories;
+﻿using CMS.Models;
+using CMS.Repositories;
 using CMS.Services;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Web.Mvc;
 
 namespace CMS.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MyBaseController
     {
         private readonly IGeneralSettingsSerivce serivce;
 
@@ -23,7 +24,7 @@ namespace CMS.Controllers
 
         public ActionResult About()
         {
-            var content = serivce.GetPage(2);
+            var content = serivce.GetPage(1);
             
 
             return View(content);

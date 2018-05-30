@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace CMS.Controllers
 {
-    public class TagController : Controller
+    public class TagController : MyBaseController
     {
         private readonly IUoW _Repostiory;
 

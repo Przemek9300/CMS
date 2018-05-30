@@ -12,13 +12,15 @@ using System.Web.Mvc;
 
 namespace CMS.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : MyBaseController
     {
         private readonly IGeneralSettingsSerivce setting;
+        private readonly IRoleSerivce service;
 
-        public AdminController(IGeneralSettingsSerivce setting)
+        public AdminController(IGeneralSettingsSerivce setting, IRoleSerivce service)
         {
             this.setting = setting;
+            this.service = service;
         }
         // GET: Admin
         public ActionResult Index()
@@ -149,9 +151,14 @@ namespace CMS.Controllers
             {
                 using (var context = new ApplicationDbContext())
                 {
-                    var user = context.Users.Where(x => x.Email.Contains(query))
-                        .Select(x=>new UserViewModel{ Email=x.Email,Roles = x.Roles.Select(y=>y.RoleId).ToList() }).ToList();
-                    return View(user);
+                    var users = context.Users.Where(x => x.Email.Contains(query))
+                        .Select(x=>new UserViewModel{ Email=x.Email,Roles = x.Roles.Select(y=> y.RoleId).ToList() }).ToList();
+                    foreach (var item in users)
+                    {
+                        item.Roles = service.GetRoles(item.Roles);
+
+                    }
+                    return View(users);
                 }
 
             }
@@ -159,9 +166,15 @@ namespace CMS.Controllers
             {
                 using (var context = new ApplicationDbContext())
                 {
-                    var user = context.Users
-                    .Select(x => new UserViewModel { Email = x.Email, Roles = x.Roles.Select(y => y.RoleId).ToList() }).ToList();
-                    return View(user);
+
+                    var users = context.Users
+                    .Select(x => new UserViewModel { Email = x.Email, Roles = x.Roles.Select(y =>y.RoleId).ToList() }).ToList();
+                    foreach (var item in users)
+                    {
+                        item.Roles = service.GetRoles(item.Roles);
+
+                    }
+                    return View(users);
                 }
 
             }

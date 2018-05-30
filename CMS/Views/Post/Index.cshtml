@@ -3,8 +3,15 @@
 @{
     ViewBag.Title = "Index";
 }
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
 
 <h2>Index</h2>
+
+@Html.TextBox("YourTextBox", "", new { @class = "date-picker" })
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -155,3 +162,12 @@
 </div>
 <!-- /.container -->
 <!-- Footer -->
+@section Scripts{
+  <script type="text/javascript">
+      $(function () {
+          // This will make every element with the class "date-picker" into a DatePicker element
+          $('.date-picker').datepicker();
+      })
+</script>  
+   }
+
