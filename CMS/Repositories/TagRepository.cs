@@ -46,6 +46,16 @@ namespace CMS.Repositories
             var tag = _repository.Tags.Find(id);
             return tag;
         }
+        public Tag GetTagOrAdd(string name)
+        {
+            var tag = _repository.Tags.FirstOrDefault(x=>x.Name == name);
+            if (tag == null)
+            {
+                tag = new Tag() { Name = name, Id = Guid.NewGuid() };
+                _repository.Tags.Add(tag);
+            }
+            return tag;
+        }
 
         public List<Tag> GetTagByName(string name)
         {

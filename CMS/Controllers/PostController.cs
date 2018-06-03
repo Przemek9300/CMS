@@ -71,14 +71,9 @@ namespace CMS.Controllers
             var post = new PostViewModel();
 
 
-                var list = _Repostiory.TagRepository.GetTags().Select(c => new {
-                    Id = c.Id,
-                    Value = c.Name
-                }).ToList();
-                post.Options = new MultiSelectList(list, "Id", "Value");
             
            
-            return View(post);
+            return View();
         }
 
         // POST: Post/Create
@@ -99,10 +94,12 @@ namespace CMS.Controllers
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
-
+                 
                         var listTags = new List<Tag>();
-                    foreach (var tag in post.SelectedOptions)
-                        listTags.Add(_Repostiory.TagRepository.GetTagByID(Guid.Parse(tag)));
+                    var tags = post.Options.Split(',');
+                    foreach (var tag in tags)
+                        listTags.Add(_Repostiory.TagRepository.GetTagOrAdd(tag));
+
                     if (post != null)
                         {
                             post.Id = Guid.NewGuid().ToString();

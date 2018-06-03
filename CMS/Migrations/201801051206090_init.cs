@@ -47,20 +47,48 @@ namespace CMS.Migrations.CmsConfiguration
                 "dbo.Tags",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
+                    Id = c.Guid(nullable: false),
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
-        }
+
+            CreateTable(
+            "dbo.PostsTags",
+            c => new
+            {
+                PostId = c.Guid(nullable: false),
+                TagId = c.Guid(nullable: false),
+            })
+            .PrimaryKey(t => new { t.PostId, t.TagId })
+                .ForeignKey("dbo.Posts", t => t.PostId, cascadeDelete: true)
+                .ForeignKey("dbo.Tags", t => t.TagId, cascadeDelete: true)
+                .Index(t => t.PostId)
+                .Index(t => t.TagId);
+
         
-        public override void Down()
+
+
+
+
+    }
+
+
+
+public override void Down()
         {
+            DropForeignKey("dbo.PostsTags", "PostId", "dbo.PostsTags");
+            DropForeignKey("dbo.PostsTags", "TagId", "dbo.Tags");
+
             DropForeignKey("dbo.GeneralSettings", "Layout_Id", "dbo.Layouts");
             DropIndex("dbo.GeneralSettings", new[] { "Layout_Id" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "PostId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "TagId" });
             DropTable("dbo.Tags");
             DropTable("dbo.Posts");
+            DropTable("dbo.PostsTags");
             DropTable("dbo.Layouts");
+            DropTable("dbo.PostsTags");
+
             DropTable("dbo.GeneralSettings");
         }
     }

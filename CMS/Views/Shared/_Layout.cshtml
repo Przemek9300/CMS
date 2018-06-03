@@ -18,39 +18,70 @@
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink(viewModel.Label, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Artykuły", "Index", "Post")</li>
-                    <li>@Html.ActionLink(viewModel.Label1, "About", "Home")</li>
-                    <li>@Html.ActionLink(viewModel.Label2, "Contact", "Home")</li>
-                    @if(User.IsInRole("Admin")){ 
-                    <li>@Html.ActionLink("Panel Administracyjny", "Index", "Admin")</li>
-                    }
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+	@*<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					@Html.ActionLink(viewModel.Label, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li>@Html.ActionLink("Artykuły", "Index", "Post")</li>
+						<li>@Html.ActionLink(viewModel.Label1, "About", "Home")</li>
+						<li>@Html.ActionLink(viewModel.Label2, "Contact", "Home")</li>
+						@if(User.IsInRole("Admin")){
+						<li>@Html.ActionLink("Panel Administracyjny", "Index", "Admin")</li>
+						}
+					</ul>
+					@Html.Partial("_LoginPartial")
+				</div>
+			</div>
+		</div>*@
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li>@Html.ActionLink("Artykuły", "Index", "Post", null, new { @class = "nav-link" })</li>
+				<li>@Html.ActionLink(viewModel.Label1, "About", "Home", null, new { @class = "nav-link" })</li>
+				<li>@Html.ActionLink(viewModel.Label2, "Contact", "Home",null ,new { @class = "nav-link" })</li>
+				@if (User.IsInRole("Admin"))
+				{
+					<li>@Html.ActionLink("Panel Administracyjny", "Index", "Admin", null, new { @class = "nav-link" })</li>
+				}
+			</ul>
+			@Html.Partial("_LoginPartial")
+		</div>
+	</nav>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="container body-content">
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+		</footer>
+	</div>
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("scripts", required: false)
 </body>
 </html>

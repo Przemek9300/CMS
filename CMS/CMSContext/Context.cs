@@ -18,6 +18,21 @@ namespace CMS.CMSContext
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
         public DbSet<Layout> Layouts { get; set; }
         public DbSet<SubPage> SubPages { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Post>()
+                        .HasMany<Tag>(s => s.Tags)
+                        .WithMany(c => c.Posts)
+                        .Map(cs =>
+                        {
+                            cs.MapLeftKey("PostId");
+                            cs.MapRightKey("TagId");
+                            cs.ToTable("PostsTags");
+                        });
+
+        }
+
 
     }
 }

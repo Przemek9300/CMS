@@ -31,7 +31,7 @@ namespace CMS.Repositories
 
         public GeneralSettings GetConfig()
         {
-            return _repository.GeneralSettings.First();
+            return _repository.GeneralSettings.FirstOrDefault();
         }
 
         public SubPage GetPage(int page)
@@ -39,15 +39,30 @@ namespace CMS.Repositories
             switch (page)
             {
                 default:
-                    return _repository.GeneralSettings.First().Page1;
+                    GeneralSettings a = _repository.GeneralSettings.FirstOrDefault();
+                    if (a == null)
+                        return new SubPage() { CodeHtml = "", Label = "defualt" };
+                    return a.Page1;
                 case 1:
-                    return _repository.GeneralSettings.First().Page1;
+                    GeneralSettings s = _repository.GeneralSettings.FirstOrDefault();
+                    if(s==null)
+                        return new SubPage() { CodeHtml = "", Label = "defualt" };
+                    return s.Page1;
                 case 2:
-                    return _repository.GeneralSettings.First().Page2;
+                    GeneralSettings c = _repository.GeneralSettings.FirstOrDefault();
+                    if (c == null)
+                        return new SubPage() { CodeHtml = "", Label = "defualt" };
+                    return c.Page1;
                 case 3:
-                    return _repository.GeneralSettings.First().Page3;
+                    GeneralSettings q = _repository.GeneralSettings.FirstOrDefault();
+                    if (q == null)
+                        return new SubPage() { CodeHtml = "", Label = "defualt" };
+                    return q.Page1;
                 case 4:
-                    return _repository.GeneralSettings.First().Page4;
+                    GeneralSettings w = _repository.GeneralSettings.FirstOrDefault();
+                    if (w == null)
+                        return new SubPage() { CodeHtml = "", Label = "defualt" };
+                    return w.Page1;
             }
         }
 

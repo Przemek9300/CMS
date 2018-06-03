@@ -21,20 +21,9 @@ namespace CMS.Controllers
         {
             this._Repostiory = _Repostiory;
         }
-        public ActionResult Index()
+     
+        public ActionResult Index(string tag)
         {
-            List<Tag> Tags;
-
-                Tags = _Repostiory.TagRepository.GetTags();
-            
-
-            return View(Tags);
-
-        }
-        public ActionResult Index1(string tag)
-        {
-            if(!tag.StartsWith("#"))
-                  tag = String.Concat("#", tag);
 
             
                 var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
