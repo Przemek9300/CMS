@@ -2,6 +2,7 @@
 using CMS.Models;
 using CMS.Repositories;
 using CMS.UnitOfWork;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +23,24 @@ namespace CMS.Controllers
             this._Repostiory = _Repostiory;
         }
      
-        public ActionResult Index(string tag)
+        public ActionResult Index(string tag, int? page)
         {
 
             
                 var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
-                return View(posts);
-            
 
-               
+
+
+            if (!String.IsNullOrEmpty(tag))
+                ViewBag.tag = tag;
+            else
+                ViewBag.tag = "Nie znaleziono!";
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            return View(posts.ToPagedList(pageNumber, pageSize));
+
+
+
 
         }
 

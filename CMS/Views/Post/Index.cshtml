@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CMS.ViewModels.PostViewModel>
+﻿
+@model PagedList.IPagedList<CMS.ViewModels.PostViewModel>
+@using PagedList.Mvc;
 
 @{
 	ViewBag.Title = "Index";
@@ -29,11 +31,32 @@
 			{
 				<div class="card mb-4">
 					<div class="icon-wrapper">
-						<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
-							<i class="fa fa-hashtag" aria-hidden="true"></i>
 
+						<span class="entry-date">
+							<i class="far fa-calendar-al"></i>
+
+							<a href="http://piotrgankiewicz.com/2017/12/30/2017-summary/" rel="bookmark">
+								<time class="entry-date" datetime="2012-02-13T04:34:10+00:00">30 December 2017</time>
+							</a>
 						</span>
+
+						<span class="comment-link">
+							<i class="pw-icon-comment"></i>
+
+							<a href="http://piotrgankiewicz.com/2017/12/30/2017-summary/#comments">10 Comments</a>
+						</span>
+
+						<span class="byline">
+							<span class="author vcard">
+								<i class="pw-icon-user-outline"></i>
+
+								<a class="url fn n" href="http://piotrgankiewicz.com/author/piotr-gankiewicz/" rel="author">Piotr Gankiewicz</a>
+							</span>
+						</span>
+
+						<span class="read-time"><i class="pw-icon-bookmark-empty-1"></i><span class="eta">5 min</span> read</span>
+
+
 					</div>
 					<div class="card-body">
 						<article>
@@ -82,13 +105,13 @@
 
 			<!-- Pagination -->
 			<ul class="pagination justify-content-center mb-4">
-				<li class="page-item">
-					<a class="page-link" href="#">&larr; Older</a>
-				</li>
 				<li class="page-item disabled">
-					<a class="page-link" href="#">Newer &rarr;</a>
+					@Html.PagedListPager(Model, page => Url.Action("Index",
+					new { page}))
 				</li>
 			</ul>
+
+
 
 		</div>
 

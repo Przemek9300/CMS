@@ -4,6 +4,7 @@ using CMS.Repositories;
 using CMS.Service;
 using CMS.UnitOfWork;
 using CMS.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace CMS.Controllers
 
         // GET: Post
         [AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
             List<PostViewModel> Vposts = new List<PostViewModel>();
 
@@ -50,9 +51,9 @@ namespace CMS.Controllers
                 
 
             }
-
-            await _Repostiory.SaveAsync();
-            return View(Vposts.OrderByDescending(x=>x.PublishAt));
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            return View(Vposts.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Post/Details/
