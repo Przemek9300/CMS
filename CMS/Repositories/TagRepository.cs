@@ -83,6 +83,16 @@ namespace CMS.Repositories
             await _repository.SaveChangesAsync();
 
         }
+
+        public List<Tag> GetTagsByQuery(string query)
+        {
+            return _repository.Tags.Where(x => x.Name.ToLower().Contains(query.ToLower())).ToList();
+        }
+
+        public List<Tag> GetTagsByPopular()
+        {
+            return _repository.Tags.OrderByDescending(x => x.Posts.Count).Take(6).ToList();
+        }
     }
 
 }

@@ -21,5 +21,6 @@ namespace CMS.ViewModels
         public bool AllowComments { get; set; }
         public string Options { get; set; }
         public virtual List<Tag> Tags { get; set; }
+
     }
 }

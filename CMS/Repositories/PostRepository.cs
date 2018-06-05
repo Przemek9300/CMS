@@ -73,6 +73,12 @@ namespace CMS.Repositories
         {
             return _repository.Posts.Select(x => x).ToList();
         }
+
+
+        public List<Post> GetPostByQuery(string query)
+        {
+            return _repository.Posts.Where(x => x.Title.ToLower().Contains(query.ToLower())).ToList();
+        }
         public async Task SaveAsync()
         {
 

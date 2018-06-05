@@ -21,7 +21,8 @@ namespace CMS.Repositories
         Task  SaveAsync();
 
         List<Tag> GetTags();
-
+        List<Tag> GetTagsByQuery(string query);
+        List<Tag> GetTagsByPopular();
 
     }
 }

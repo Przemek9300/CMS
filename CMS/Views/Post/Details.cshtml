@@ -1,5 +1,10 @@
 ﻿@model CMS.Models.Post
+<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet" />
 
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/tagsinput.css" rel="stylesheet" />
 <div class="container">
     <div class="row">
         <!-- Post Content Column -->
@@ -87,62 +92,128 @@
             </div>
         </div>
         <!-- Sidebar Widgets Column -->
-        <div class="col-md-4">
-            <!-- Search Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Search</h5>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <!-- Categories Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Categories</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Web Design</a>
-                                </li>
-                                <li>
-                                    <a href="#">HTML</a>
-                                </li>
-                                <li>
-                                    <a href="#">Freebies</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">JavaScript</a>
-                                </li>
-                                <li>
-                                    <a href="#">CSS</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tutorials</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Side Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Side Widget</h5>
-                <div class="card-body">
-                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-                </div>
-            </div>
-        </div>
+		<div class="col-md-4">
+			<!-- Search Widget -->
+			<div class="card my-4">
+				<h5 class="card-header">Search</h5>
+				<div class="card-body">
+					<div class="input-group ui-widget">
+						<input type="text" class="form-control autocomplete " placeholder="Search tags with '#'" id="autocomplete">
+						<span class="input-group-btn">
+							<button class="btn btn-secondary searchButton" id="searchButton" type="button">Go!</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- Categories Widget -->
+			<div class="card my-4">
+				<h5 class="card-header">Categories</h5>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-6">
+							<ul class="list-unstyled mb-0">
+								<li>
+									<a href="#">Web Design</a>
+								</li>
+								<li>
+									<a href="#">HTML</a>
+								</li>
+								<li>
+									<a href="#">Freebies</a>
+								</li>
+							</ul>
+						</div>
+						<div class="col-lg-6">
+							<ul class="list-unstyled mb-0">
+								<li>
+									<a href="#">JavaScript</a>
+								</li>
+								<li>
+									<a href="#">CSS</a>
+								</li>
+								<li>
+									<a href="#">Tutorials</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Side Widget -->
+			<div class="card my-4">
+				<h5 class="card-header">Side Widget</h5>
+				<div class="card-body">
+					You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+				</div>
+			</div>
+		</div>
     </div>
     <!-- /.row -->
 </div>
 <!-- /.container -->
+<section script>
+	<script>
+
+
+		$("#autocomplete").autocomplete({
+			classes: {
+				"ui-menu": "highlight"
+			},
+			source: (request, response) => {
+				$.ajax({
+					url: "@Url.Action("Autocomplete","Post", null)",
+					type: "POST",
+					dataType: "json",
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify({ 'query': request.term }),
+					success: function (data) {
+						response($.map(data, function (item) {
+							return { label: item.label, value: item.value };
+						}))
+
+					},
+					error: (error) => {
+						console.log(JSON.stringify(error));
+					}
+
+
+				})
+			},
+			minLength: 3,
+			select: (e, ui) => {
+				window.location.href = ui.item.value
+			}
+
+
+			}
+		)
+		$("#searchButton").click(() => {
+
+			let value = $("#autocomplete").val();
+			alert(value);
+			if (value.startsWith('#')) {
+				value = value.split("#")[1]
+				window.location.href = '@Url.Action("Index", "Tag")?query=' + value;
+			}
+			else {
+
+				window.location.href = '@Url.Action("Index", "Post")?query=' + value;
+			}
+
+
+
+
+
+
+		}
+
+
+
+		)
+
+
+
+
+
+	</script>
+</section>

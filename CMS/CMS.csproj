@@ -236,6 +236,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
+    <Compile Include="ExtensionsMethod\ListExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MainLayoutViewModel.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="UnitOfWork\IUoW.cs" />
     <Compile Include="UnitOfWork\UoW.cs" />
+    <Compile Include="ViewModels\BlogViewModel.cs" />
     <Compile Include="ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

@@ -30,7 +30,9 @@ namespace CMS.Controllers
                 var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
 
 
-
+            var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
+            ViewBag.tag1 = popularTags[0];
+            ViewBag.tag2 = popularTags[1];
             if (!String.IsNullOrEmpty(tag))
                 ViewBag.tag = tag;
             else
