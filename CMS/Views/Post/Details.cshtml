@@ -17,17 +17,15 @@
             <!-- Date/Time -->
             <div class="icon-wrapper">
                 <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle-thin fa-stack-2x"></i>
                     <i class="fa fa-user fa-stack-1x"></i>
                 </span>
                 @Model.Author
                 <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+
                     <i class="fa fa-clock-o fa-stack-1x"></i>
                 </span>
-                @Model.PublishAt.ToString("dd MMMM yy")
+                @Model.PublishAt.ToString("dd-MMMM-yy")
                 <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle-thin fa-stack-2x"></i>
                     <i class="fa fa-comment-o fa-stack-1x"></i>
 
                 </span>
