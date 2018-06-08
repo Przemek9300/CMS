@@ -37,7 +37,7 @@ namespace CMS.Controllers
                 ViewBag.tag = tag;
             else
                 ViewBag.tag = "Nie znaleziono!";
-            int pageSize = 1;
+            int pageSize = 2;
             int pageNumber = (page ?? 1);
             return View(posts.ToPagedList(pageNumber, pageSize));
 

@@ -10,10 +10,12 @@
 <link href="~/Content/tagsinput.css" rel="stylesheet" />
 
 
-
+@if (User.IsInRole("Admin"))
+{
 <p>
-	@Html.ActionLink("Create New", "Create")
+	@Html.ActionLink("Nowy Post", "Create", null, new { @class = "btn btn-light btn-outline-dark" })
 </p>
+}
 <div class="container">
 
 	<div class="row">
