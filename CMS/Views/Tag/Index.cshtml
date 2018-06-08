@@ -1,6 +1,7 @@
-﻿@model PagedList.IPagedList<CMS.Models.Post>
+﻿
+@model PagedList.IPagedList<CMS.Models.Post>
 @using PagedList.Mvc;
-@using CMS.Models;
+@using CMS.Models
 <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet" />
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -8,14 +9,13 @@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/tagsinput.css" rel="stylesheet" />
 
-@{
-	ViewBag.Title = "Index";
+
+@if (User.IsInRole("Admin"))
+{
+	<p>
+		@Html.ActionLink("Nowy Post", "Create", null, new { @class = "btn btn-light btn-outline-dark" })
+	</p>
 }
-
-
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
 <div class="container">
 
 	<div class="row">
@@ -24,14 +24,25 @@
 		<div class="col-md-8">
 
 			<h1 class="my-4">
-				@ViewBag.tag
+				@ViewBag.name
 			</h1>
 			<hr />
 
 			<!-- Blog Post -->
 			@foreach (var item in Model)
 			{
+				<div>
+					<span class="fa-stack fa-lg"></span>
+
+
+					@foreach (var tag in item.Tags)
+					{
+						@Html.ActionLink("#" + tag.Name, "Index", "Tag", new { tag = tag.Name }, new { @class = "btn btn-light btn-outline-dark" })
+					}
+				</div>
 				<div class="card mb-4">
+
+
 
 					<div class="card-body">
 						<article>
@@ -39,30 +50,30 @@
 							<img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
 							<blockquote>@item.Description</blockquote>
 						</article>
-
+						@Html.ActionLink("Czytaj dalej...", "Details","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 					</div>
-					<div class="card-footer text-muted">
 
-					</div>
-					@Html.ActionLink("Czytaj dalej...", "Details", "Post", new { id = @item.Id }, new { @class = "btn btn-default" })
+
 					@if (User.IsInRole("Admin"))
 					{
-						@Html.ActionLink("Edytuj Post", "Edit", "Post", new { id = @item.Id }, new { @class = "btn btn-default" })
-						@Html.ActionLink("Usuń Post", "Delete", "Post", new { id = @item.Id }, new { @class = "btn btn-default" })
+						@Html.ActionLink("Edytuj Post", "Edit","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+
+
+						@Html.ActionLink("Usuń Post", "Delete","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 					}
 					<div class="icon-wrapper">
 						<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
+
 							<i class="fa fa-user fa-stack-1x"></i>
 						</span>
 						@item.Author
 						<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
+
 							<i class="fa fa-clock-o fa-stack-1x"></i>
 						</span>
 						@item.PublishAt.ToString("dd MMMM yy")
 						<span class="fa-stack fa-lg">
-							<i class="fa fa-circle-thin fa-stack-2x"></i>
+
 							<i class="fa fa-comment-o fa-stack-1x"></i>
 
 						</span>
@@ -78,11 +89,11 @@
 			<!-- Pagination -->
 			<ul class="pagination justify-content-center mb-4">
 				<li class="page-item disabled">
-
 					@Html.PagedListPager(Model, page => Url.Action("Index",
-						new { page, ViewBag.tag}))
+					new { page }))
 				</li>
 			</ul>
+
 
 
 		</div>
@@ -153,6 +164,7 @@
 </div>
 <!-- /.container -->
 <!-- Footer -->
+
 <section script>
 	<script>
 
@@ -163,7 +175,7 @@
 			},
 			source: (request, response) => {
 				$.ajax({
-					url: "@Url.Action("Autocomplete","Post", null)",
+					url: "@Url.Action("Autocomplete")",
 					type: "POST",
 					dataType: "json",
 					contentType: "application/json; charset=utf-8",

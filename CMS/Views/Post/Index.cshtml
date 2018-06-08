@@ -1,5 +1,5 @@
 ﻿
-@model PagedList.IPagedList<CMS.ViewModels.PostViewModel>
+@model PagedList.IPagedList<CMS.Models.Post>
 @using PagedList.Mvc;
 @using CMS.Models
 <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet" />
@@ -24,7 +24,7 @@
 		<div class="col-md-8">
 
 			<h1 class="my-4">
-				Blog
+				@ViewBag.name
 			</h1>
 			<hr />
 
@@ -50,16 +50,16 @@
 							<img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
 							<blockquote>@item.Description</blockquote>
 						</article>
-						@Html.ActionLink("Czytaj dalej...", "Details", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+						@Html.ActionLink("Czytaj dalej...", "Details","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 					</div>
 
 					
 					@if (User.IsInRole("Admin"))
 					{
-						@Html.ActionLink("Edytuj Post", "Edit", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+						@Html.ActionLink("Edytuj Post", "Edit","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 
 
-						@Html.ActionLink("Usuń Post", "Delete", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+						@Html.ActionLink("Usuń Post", "Delete","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 				   }
 					<div class="icon-wrapper">
 						<span class="fa-stack fa-lg">

@@ -31,46 +31,35 @@ namespace CMS.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index(int? page, string query)
         {
-            List<PostViewModel> viewPost = new List<PostViewModel>();
+            ViewBag.name = "Blog";
             List<Post> posts = null;
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
             ViewBag.tag1 = popularTags[0];
             ViewBag.tag2 = popularTags[1];
+
             if (String.IsNullOrEmpty(query))
                  posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x=>x.PublishAt).ToList();
             else
                  posts = _Repostiory.PostRepository.GetPostByQuery(query).OrderByDescending(x=>x.PublishAt).ToList();
-                foreach(var Vpost in posts)
-                {
-                viewPost.Add(new PostViewModel
-                {
-                    Title = Vpost.Title,
-                    AllowComments = Vpost.AllowComments,
-                    Author = Vpost.Author,
-                    Content = Vpost.Content,
-                    Description = Vpost.Description,
-                    Id = Vpost.Id.ToString(),
-                    ImageUrl = Vpost.ImageUrl,
-                    PublishAt = Vpost.PublishAt,
-                    Tags = Vpost.Tags.ToList(),
-
-                    });
+                
                             
                 
                 
 
-            }
+            
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(viewPost.ToPagedList(pageNumber, pageSize));
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Post/Details/
         [AllowAnonymous]
         public ActionResult Details(Guid id)
         {
-
-                var post = _Repostiory.PostRepository.GetPostByID(id);
+            var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
+            ViewBag.tag1 = popularTags[0];
+            ViewBag.tag2 = popularTags[1];
+            var post = _Repostiory.PostRepository.GetPostByID(id);
                 return View(post);
             
         }
