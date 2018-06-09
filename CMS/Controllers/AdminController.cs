@@ -201,13 +201,15 @@ namespace CMS.Controllers
 
         }
         [HttpPost]
-        public ActionResult SubPage(SubPage page, int? id)
+        public async Task<ActionResult> SubPage(SubPage page, int? id)
         {
             if (ModelState.IsValid)
             {
  
                     var config = setting.GetSetting();
-                    switch (id)
+                if (config == null)
+                    setting.AddSetting(config);
+                switch (id)
                     {
                         default:
                             config.Page1 = page;
@@ -229,7 +231,7 @@ namespace CMS.Controllers
                             config.Page4 = page;
                             break;
                     }
-                    setting.AddSetting(config);
+                await setting.SaveAsync();
                     if (id >= 4)
                         return RedirectToAction("Themes", "Admin");
                     return RedirectToAction("SubPage", "Admin", new { id = id + 1 });

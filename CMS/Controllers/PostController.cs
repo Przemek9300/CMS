@@ -4,6 +4,7 @@ using CMS.Repositories;
 using CMS.Service;
 using CMS.UnitOfWork;
 using CMS.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Services;
+using System.Web.Services;
 
 namespace CMS.Controllers
 {
@@ -26,42 +29,45 @@ namespace CMS.Controllers
 
         // GET: Post
         [AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string query)
         {
-            List<PostViewModel> Vposts = new List<PostViewModel>();
+            ViewBag.name = "Blog";
+            List<Post> posts = null;
+            var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
+            ViewBag.tag1 = popularTags[0];
+            ViewBag.tag2 = popularTags[1];
 
-                var posts = _Repostiory.PostRepository.GetPosts();
-                foreach(var Vpost in posts)
-                {
-                    Vposts.Add(new PostViewModel
-                    {
-                        Title = Vpost.Title,
-                        AllowComments = Vpost.AllowComments,
-                        Author = Vpost.Author,
-                        Content = Vpost.Content,
-                        Description = Vpost.Description,
-                        Id = Vpost.Id.ToString(),
-                        ImageUrl = Vpost.ImageUrl,
-                        PublishAt = Vpost.PublishAt,
-                        Tags = Vpost.Tags.ToList()
-                    });
+            if (String.IsNullOrEmpty(query))
+                 posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x=>x.PublishAt).ToList();
+            else
+                 posts = _Repostiory.PostRepository.GetPostByQuery(query).OrderByDescending(x=>x.PublishAt).ToList();
+                
                             
                 
                 
 
-            }
-
-            await _Repostiory.SaveAsync();
-            return View(Vposts.OrderByDescending(x=>x.PublishAt));
+            
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Post/Details/
         [AllowAnonymous]
-        public ActionResult Details(Guid id)
+        public async Task<ActionResult> Details(Guid id)
         {
-
-                var post = _Repostiory.PostRepository.GetPostByID(id);
+            var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
+            ViewBag.tag1 = popularTags[0];
+            ViewBag.tag2 = popularTags[1];
+            var post = _Repostiory.PostRepository.GetPostByID(id);
+            if (post != null)
+            {
+                post.Views += 1;
+                _Repostiory.PostRepository.ModifyPost(post);
+                await _Repostiory.PostRepository.SaveAsync();
                 return View(post);
+            }
+            return View();
             
         }
 
@@ -71,14 +77,9 @@ namespace CMS.Controllers
             var post = new PostViewModel();
 
 
-                var list = _Repostiory.TagRepository.GetTags().Select(c => new {
-                    Id = c.Id,
-                    Value = c.Name
-                }).ToList();
-                post.Options = new MultiSelectList(list, "Id", "Value");
             
            
-            return View(post);
+            return View();
         }
 
         // POST: Post/Create
@@ -99,10 +100,13 @@ namespace CMS.Controllers
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
-
+                 
                         var listTags = new List<Tag>();
-                    foreach (var tag in post.SelectedOptions)
-                        listTags.Add(_Repostiory.TagRepository.GetTagByID(Guid.Parse(tag)));
+                    var tags = post.Options.Split(',');
+               
+                    foreach (var tag in tags)
+                        listTags.Add(_Repostiory.TagRepository.GetTagOrAdd(tag));
+
                     if (post != null)
                         {
                             post.Id = Guid.NewGuid().ToString();
@@ -117,7 +121,8 @@ namespace CMS.Controllers
                                 Id = Guid.Parse(post.Id),
                                 ImageUrl = serverPath,
                                 PublishAt = post.PublishAt,
-                                Tags = listTags
+                                Tags = listTags,
+
                             });
 
                             await _Repostiory.SaveAsync();
@@ -186,8 +191,33 @@ namespace CMS.Controllers
         // GET: Post/Delete/5
         public ActionResult Delete(Guid id)
         {
-            return View();
+            var post = _Repostiory.PostRepository.GetPostByID(id);
+            return View(post);
         }
+        [WebMethod]
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Autocomplete(string query)
+        {
+            if (query.StartsWith("#"))
+            {
+                var tag = query.Split('#')[1];
+                var tags = _Repostiory.TagRepository.GetTagsByQuery(tag).Select(r => new { label = r.Name, value = Url.Action("Index", "Tag", new { tag = r.Name }) }) .Take(5).ToList();
+                return Json(tags, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var posts = _Repostiory.PostRepository.GetPostByQuery(query).Select(r => new { label = r.Title, value = Url.Action("Details","Post", new {id = r.Id }) }).Take(5).ToList();
+                return Json(posts, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+
+
+
+
+
 
         // POST: Post/Delete/5
         [HttpPost]
@@ -212,5 +242,6 @@ namespace CMS.Controllers
                 return View();
             }
         }
+
     }
 }

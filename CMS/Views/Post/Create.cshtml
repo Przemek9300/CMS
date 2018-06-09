@@ -1,169 +1,130 @@
 ﻿@model CMS.ViewModels.PostViewModel
 
 @{
-    ViewBag.Title = "Create";
+	ViewBag.Title = "Create";
 }
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="~/Scripts/tagsinput.js"></script>
+
+<script src="@Url.Content("~/Scripts/tinymce/jquery.tinymce.js")" type="text/javascript"></script>
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script src="~/Scripts/main.js"></script>
+<script src="~/Scripts/jquery.tagsinput.js"></script>
+
+<script type="text/javascript" src="./src/jquery.tagsinput.js"></script>
+
+
+<link href="~/Content/tagsinput.css" rel="stylesheet" />
 <h2>Utwórz post</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
+	@Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <input name="tags" id="tags" value="foo,bar,baz" />
-        </div>
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="file" id="file" style="width:50%" accept='image/*' onchange="readURL(this);" />
-                <img id="blah" src="#" alt="your image" />
-                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-            @Html.ListBoxFor(s => s.SelectedOptions, Model.Options)
-            </div>
-        </div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.AllowComments)
-                    @Html.ValidationMessageFor(model => model.AllowComments, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
-                @*<div class="form-group">
-            @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">                    
-                    @Html.DropDownList(Model., Model.Tags.Select(x=>new SelectListItem {Text = x.Name }), new { @class = "control-label col-md-2" }))
+		<div class="form-group">
+			@Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				<input name="Options" id="Options" value="" , data-role="tagsinput" />
+			</div>
+		</div>
 
-                </div>
-            </div>
-        </div>*@
+		<div class="form-group">
+			@Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				<input type="file" name="file" id="file" style="width:50%" accept='image/*' onchange="readURL(this);" />
+				<img id="blah" src="#" alt="your image" />
+				@Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				<div class="checkbox">
+					@Html.EditorFor(model => model.AllowComments)
+					@Html.ValidationMessageFor(model => model.AllowComments, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		@*<div class="form-group">
+				@Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					<div class="checkbox">
+						@Html.DropDownList(Model., Model.Tags.Select(x=>new SelectListItem {Text = x.Name }), new { @class = "control-label col-md-2" }))
+
+					</div>
+				</div>
+			</div>*@
+
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Back to List", "Index")
 </div>
 @section Scripts{
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+	<script>
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
 
-            reader.onload = function (e) {
-                $('#blah')
-                    .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
-            };
+				reader.onload = function (e) {
+					$('#blah')
+						.attr('src', e.target.result)
+						.width(150)
+						.height(200);
+				};
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-<script src="@Url.Content("~/Scripts/tinymce/jquery.tinymce.js")" type="text/javascript"></script>
-
-<script src="~/Scripts/tinymce/tinymce.min.js"></script>
-<script src="~/Scripts/main.js"></script>
-<script src="~/Scripts/jquery.tagsinput.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="./src/jquery.tagsinput.js"></script>
-<!-- To test using the original jQuery.autocomplete, uncomment the following -->
-<!--
-<script type='text/javascript' src='http://xoxco.com/x/tagsinput/jquery-autocomplete/jquery.autocomplete.min.js'></script>
-<link rel="stylesheet" type="text/css" href="http://xoxco.com/x/tagsinput/jquery-autocomplete/jquery.autocomplete.css" />
--->
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'></script>
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css" />
-
-
-<script type="text/javascript">
-
-    function onAddTag(tag) {
-        alert("Added a tag: " + tag);
-    }
-    function onRemoveTag(tag) {
-        alert("Removed a tag: " + tag);
-    }
-
-    function onChangeTag(input, tag) {
-        alert("Changed a tag: " + tag);
-    }
-
-    $(function () {
-
-        $('#tags_1').tagsInput({ width: 'auto' });
-        $('#tags_2').tagsInput({
-            width: 'auto',
-            onChange: function (elem, elem_tags) {
-                var languages = ['php', 'ruby', 'javascript'];
-                $('.tag', elem_tags).each(function () {
-                    if ($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
-                        $(this).css('background-color', 'yellow');
-                });
-            }
-        });
-        $('#tags_3').tagsInput({
-            width: 'auto',
-
-            //autocomplete_url:'test/fake_plaintext_endpoint.html' //jquery.autocomplete (not jquery ui)
-            autocomplete_url: 'test/fake_json_endpoint.html' // jquery ui autocomplete requires a json endpoint
-        });
-
-
-        // Uncomment this line to see the callback functions in action
-        //			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});
-
-        // Uncomment this line to see an input with no interface for adding new tags.
-        //			$('input.tags').tagsInput({interactive:false});
-    });
-
-</script>
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+	</script>
 
 
 
-    }
+
+
+
+}

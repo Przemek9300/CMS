@@ -187,7 +187,7 @@ a[aria-expanded="true"]::before {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: ##353b48;
+
 }
 
 ul.CTAs {
@@ -281,4 +281,27 @@ div.tagsinput {
 .not_valid {
     background: #FBD8DB !important;
     color: #90111A !important;
+}
+.entry-meta {
+	padding: 0 0 1.4em 0;
+	font-size: 13px;
+}
+
+.btn-circle.btn-xl {
+	width: 70px;
+	height: 70px;
+	padding: 10px 16px;
+	border-radius: 35px;
+	font-size: 24px;
+	line-height: 1.33;
+}
+
+.btn-circle {
+	width: 30px;
+	height: 30px;
+	padding: 6px 0px;
+	border-radius: 15px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 1.42857;
 }

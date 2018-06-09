@@ -19,8 +19,8 @@ namespace CMS.ViewModels
         [AllowHtml]
         public string Content { get; set; }
         public bool AllowComments { get; set; }
-        public MultiSelectList Options { set; get; }
-        public string[] SelectedOptions { set; get; }
+        public string Options { get; set; }
         public virtual List<Tag> Tags { get; set; }
+
     }
 }

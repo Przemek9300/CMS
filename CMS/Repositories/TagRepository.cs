@@ -46,6 +46,16 @@ namespace CMS.Repositories
             var tag = _repository.Tags.Find(id);
             return tag;
         }
+        public Tag GetTagOrAdd(string name)
+        {
+            var tag = _repository.Tags.FirstOrDefault(x=>x.Name == name);
+            if (tag == null)
+            {
+                tag = new Tag() { Name = name, Id = Guid.NewGuid() };
+                _repository.Tags.Add(tag);
+            }
+            return tag;
+        }
 
         public List<Tag> GetTagByName(string name)
         {
@@ -72,6 +82,16 @@ namespace CMS.Repositories
 
             await _repository.SaveChangesAsync();
 
+        }
+
+        public List<Tag> GetTagsByQuery(string query)
+        {
+            return _repository.Tags.Where(x => x.Name.ToLower().Contains(query.ToLower())).ToList();
+        }
+
+        public List<Tag> GetTagsByPopular()
+        {
+            return _repository.Tags.OrderByDescending(x => x.Posts.Count).Take(6).ToList();
         }
     }
 

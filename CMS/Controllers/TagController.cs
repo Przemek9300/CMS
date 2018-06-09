@@ -2,6 +2,7 @@
 using CMS.Models;
 using CMS.Repositories;
 using CMS.UnitOfWork;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,112 +22,35 @@ namespace CMS.Controllers
         {
             this._Repostiory = _Repostiory;
         }
-        public ActionResult Index()
-        {
-            List<Tag> Tags;
 
-                Tags = _Repostiory.TagRepository.GetTags();
-            
-
-            return View(Tags);
-
-        }
-        public ActionResult Index1(string tag)
-        {
-            if(!tag.StartsWith("#"))
-                  tag = String.Concat("#", tag);
-
-            
-                var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
-                return View(posts);
-            
-
-               
-
-        }
-
-
-        // GET: Tag/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Index(string query, int? page)
         {
 
-                var tag = _Repostiory.TagRepository.GetTagByID(id);
-                return View(tag);
-            
-            
+            ViewBag.name = query;
+            var posts = _Repostiory.PostRepository.GetPostsByTag(query);
+
+
+            var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
+            ViewBag.tag1 = popularTags[0];
+            ViewBag.tag2 = popularTags[1];
+            if (!String.IsNullOrEmpty(query))
+                ViewBag.tag = query;
+            else
+                ViewBag.tag = "Nie znaleziono!";
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View("~/Views/Post/Index.cshtml", posts.ToPagedList(pageNumber, pageSize));
+
+
+
+
         }
 
-        // GET: Tag/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Tag/Create
-        [HttpPost]
-        public async Task<ActionResult> Create(Tag tag)
-        {
 
-            try
-            {
 
-                    if (!tag.Name.StartsWith("#"))
-                        tag.Name = "#" + tag.Name;
-                    _Repostiory.TagRepository.AddTag(tag);
-                    await _Repostiory.SaveAsync();
-                    // TODO: Add insert logic here
-                
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Tag/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Tag/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Tag/Delete/5
-        public ActionResult Delete(Guid id)
-        {
-            return View();
-        }
-
-        // POST: Tag/Delete/5
-        [HttpPost]
-        public ActionResult Delete(Guid id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
+
+
 }
     
