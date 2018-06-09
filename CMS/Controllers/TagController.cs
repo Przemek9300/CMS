@@ -23,18 +23,18 @@ namespace CMS.Controllers
             this._Repostiory = _Repostiory;
         }
 
-        public ActionResult Index(string tag, int? page)
+        public ActionResult Index(string query, int? page)
         {
 
-            ViewBag.name = tag;
-            var posts = _Repostiory.PostRepository.GetPostsByTag(tag);
+            ViewBag.name = query;
+            var posts = _Repostiory.PostRepository.GetPostsByTag(query);
 
 
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
             ViewBag.tag1 = popularTags[0];
             ViewBag.tag2 = popularTags[1];
-            if (!String.IsNullOrEmpty(tag))
-                ViewBag.tag = tag;
+            if (!String.IsNullOrEmpty(query))
+                ViewBag.tag = query;
             else
                 ViewBag.tag = "Nie znaleziono!";
             int pageSize = 2;

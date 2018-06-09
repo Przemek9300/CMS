@@ -10,13 +10,17 @@
 <link href="~/Content/tagsinput.css" rel="stylesheet" />
 
 
-@if (User.IsInRole("Admin"))
+
+<div class="container">
+
+	@if (User.IsInRole("Admin"))
 {
+
 <p>
-	@Html.ActionLink("Nowy Post", "Create", null, new { @class = "btn btn-light btn-outline-dark" })
+	@Html.ActionLink("Nowy Post", "Create","Post", null, new { @class = "btn btn-light btn-outline-dark" })
 </p>
 }
-<div class="container">
+
 
 	<div class="row">
 
@@ -32,12 +36,12 @@
 			@foreach (var item in Model)
 			{
 				<div>
-					<span class="fa-stack fa-lg"></span>
+					
 
 
 					@foreach (var tag in item.Tags)
 					{
-						@Html.ActionLink("#"+tag.Name, "Index", "Tag", new { tag = tag.Name }, new { @class = "btn btn-light btn-outline-dark" })
+						@Html.ActionLink("#"+tag.Name, "Index", "Tag", new { query = tag.Name }, new { @class = "btn btn-light btn-outline-dark" })
 					}
 				</div>
 				<div class="card mb-4">
@@ -48,6 +52,7 @@
 						<article>
 							<h2 class="card-title ">@item.Title.ToUpper()</h2>
 							<img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
+							<hr />
 							<blockquote>@item.Description</blockquote>
 						</article>
 						@Html.ActionLink("Czytaj dalej...", "Details","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
@@ -71,13 +76,18 @@
 							
 							<i class="fa fa-clock-o fa-stack-1x"></i>
 						</span>
-						@item.PublishAt.ToString("dd MMMM yy")
+						@item.PublishAt.ToString("dd-MMMM-yy")
 						<span class="fa-stack fa-lg">
 							
 							<i class="fa fa-comment-o fa-stack-1x"></i>
 
 						</span>
 						0
+						<span class="fa-stack fa-lg">
+							<i class="fa  fa-eye fa-stack-1x"></i>
+
+						</span>
+						@item.Views
 
 					</div>
 				</div>
@@ -127,7 +137,7 @@
 								@foreach (var item in ViewBag.tag1 as List<Tag>)
 								{
 								<li>
-									@Html.ActionLink(item.Name+"("+item.Posts.Count+")","Index","Tag",new {tag= item.Name},null)
+									@Html.ActionLink(item.Name+"("+item.Posts.Count+")","Index","Tag",new {query= item.Name},null)
 								</li>
 								}
 								</ul>
@@ -137,7 +147,7 @@
 								@foreach (var item in ViewBag.tag2 as List<Tag>)
 								{
 									<li>
-										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, null)
+										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, null)
 									</li>
 								}
 							</ul>
@@ -175,7 +185,7 @@
 			},
 			source: (request, response) => {
 				$.ajax({
-					url: "@Url.Action("Autocomplete")",
+					url: "@Url.Action("Autocomplete","Post")",
 					type: "POST",
 					dataType: "json",
 					contentType: "application/json; charset=utf-8",
@@ -204,7 +214,7 @@
 		$("#searchButton").click(() => {
 
 			let value = $("#autocomplete").val();
-			alert(value);
+		
 			if (value.startsWith('#')) {
 				value = value.split("#")[1]
 				window.location.href = '@Url.Action("Index", "Tag")?query=' + value;

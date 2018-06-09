@@ -54,13 +54,20 @@ namespace CMS.Controllers
 
         // GET: Post/Details/
         [AllowAnonymous]
-        public ActionResult Details(Guid id)
+        public async Task<ActionResult> Details(Guid id)
         {
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
             ViewBag.tag1 = popularTags[0];
             ViewBag.tag2 = popularTags[1];
             var post = _Repostiory.PostRepository.GetPostByID(id);
+            if (post != null)
+            {
+                post.Views += 1;
+                _Repostiory.PostRepository.ModifyPost(post);
+                await _Repostiory.PostRepository.SaveAsync();
                 return View(post);
+            }
+            return View();
             
         }
 

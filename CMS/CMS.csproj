@@ -237,6 +237,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="ExtensionsMethod\ListExtensions.cs" />
+    <Compile Include="Migrations\201806091007047_AddViewsToPost.cs" />
+    <Compile Include="Migrations\201806091007047_AddViewsToPost.Designer.cs">
+      <DependentUpon>201806091007047_AddViewsToPost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MainLayoutViewModel.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -309,6 +313,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\local.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\tagsinput.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -654,6 +659,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805161741187_AddLabelTo_SubPage.resx">
       <DependentUpon>201805161741187_AddLabelTo_SubPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806091007047_AddViewsToPost.resx">
+      <DependentUpon>201806091007047_AddViewsToPost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace CMS.Services
 {
-    public  class GeneralSettingsService:IGeneralSettingsSerivce
+    public class GeneralSettingsService : IGeneralSettingsSerivce
     {
 
         private readonly IGeneralSettingsRepository _settingContext;
@@ -26,7 +27,7 @@ namespace CMS.Services
                 context.SaveChanges();
             }
         }
-        public  string LoadLayout()
+        public string LoadLayout()
         {
             using (Context context = new Context())
             {
@@ -38,7 +39,7 @@ namespace CMS.Services
 
 
         }
-        public  string GetApplicationName()
+        public string GetApplicationName()
         {
             using (Context context = new Context())
             {
@@ -53,7 +54,13 @@ namespace CMS.Services
 
         public GeneralSettings GetSetting()
         {
-            return _settingContext.GetConfig();
+            var settings = _settingContext.GetConfig();
+            if (settings == null) {
+                settings = new GeneralSettings();
+                _settingContext.AddConfig(settings);
+            }
+            return settings;
+
         }
 
         public void AddSetting(GeneralSettings c)
@@ -63,14 +70,24 @@ namespace CMS.Services
 
         public SubPage GetPage(int page)
         {
-             var subpage = _settingContext.GetPage(page);
-            if (subpage != null&&!String.IsNullOrEmpty(subpage.Label))
+            var subpage = _settingContext.GetPage(page);
+            if (subpage != null && !String.IsNullOrEmpty(subpage.Label))
                 return subpage;
             return new SubPage()
             {
                 CodeHtml = "empty",
                 Label = "Default"
             };
+        }
+
+        public async Task SaveAsync()
+        {
+            await _settingContext.SaveAsync();
+        }
+
+        public int AriclesInPage () 
+        {
+            return 5;
         }
     }
  }

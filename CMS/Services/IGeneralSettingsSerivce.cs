@@ -15,6 +15,7 @@ namespace CMS.Services
         GeneralSettings GetSetting();
         void AddSetting(GeneralSettings c);
         SubPage GetPage(int page);
-
+        int AriclesInPage();
+        Task SaveAsync();
     }
 }

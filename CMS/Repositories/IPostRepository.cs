@@ -9,6 +9,7 @@ namespace CMS.Repositories
 {
     public interface IPostRepository:IDisposable
     {
+
         Post GetPostByID(Guid id);
         List<Post> GetPosts();
         List<Post> GetPostByTitle(String title);
