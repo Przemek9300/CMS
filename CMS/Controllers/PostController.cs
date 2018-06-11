@@ -31,6 +31,8 @@ namespace CMS.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index(int? page, string query)
         {
+            ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
+
             ViewBag.name = "Blog";
             List<Post> posts = null;
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
@@ -59,6 +61,7 @@ namespace CMS.Controllers
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
             ViewBag.tag1 = popularTags[0];
             ViewBag.tag2 = popularTags[1];
+            ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
             var post = _Repostiory.PostRepository.GetPostByID(id);
             if (post != null)
             {
