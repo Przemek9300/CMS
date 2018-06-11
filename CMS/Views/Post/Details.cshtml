@@ -121,7 +121,7 @@
 								@foreach (var item in ViewBag.tag1 as List<Tag>)
 								{
 									<li>
-										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, null)
+										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, new { @class = "popular" })
 									</li>
 								}
 							</ul>
@@ -131,7 +131,7 @@
 								@foreach (var item in ViewBag.tag2 as List<Tag>)
 								{
 									<li>
-										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, null)
+										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, new { @class = "popular" })
 									</li>
 								}
 							</ul>
@@ -143,9 +143,21 @@
 			</div>
 			<!-- Side Widget -->
 			<div class="card my-4">
-				<h5 class="card-header">Side Widget</h5>
+				<h5 class="card-header">Najnowsze</h5>
 				<div class="card-body">
-					You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+					<ul class="list-unstyled mb-0">
+						@if (ViewBag.newestPost != null)
+						{
+							foreach (var item in ViewBag.newestPost as List<Post>)
+							{
+
+								<li>
+									@Html.ActionLink(item.Title.Truncate(45), "Details", "Post", new { id = item.Id }, new { @class = "popular" })
+								</li>
+							}
+						}
+					</ul>
+
 				</div>
 			</div>
 		</div>

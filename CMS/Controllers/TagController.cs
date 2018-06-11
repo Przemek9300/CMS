@@ -25,8 +25,8 @@ namespace CMS.Controllers
 
         public ActionResult Index(string query, int? page)
         {
-
-            ViewBag.name = query;
+            ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
+            ViewBag.name = "#"+query;
             var posts = _Repostiory.PostRepository.GetPostsByTag(query);
 
 

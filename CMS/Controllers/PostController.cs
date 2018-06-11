@@ -58,6 +58,7 @@ namespace CMS.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Details(Guid id)
         {
+            ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
             ViewBag.tag1 = popularTags[0];
             ViewBag.tag2 = popularTags[1];
@@ -70,7 +71,7 @@ namespace CMS.Controllers
                 await _Repostiory.PostRepository.SaveAsync();
                 return View(post);
             }
-            return View();
+            return RedirectToAction("Index");
             
         }
 
