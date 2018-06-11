@@ -43,13 +43,13 @@ namespace CMS.Controllers
                  posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x=>x.PublishAt).ToList();
             else
                  posts = _Repostiory.PostRepository.GetPostByQuery(query).OrderByDescending(x=>x.PublishAt).ToList();
-                
-                            
-                
-                
 
-            
-            int pageSize = 5;
+
+
+
+
+
+            int pageSize = _Repostiory.GeneralSettingsRepository.GetArticlesinPage();
             int pageNumber = (page ?? 1);
             return View(posts.ToPagedList(pageNumber, pageSize));
         }

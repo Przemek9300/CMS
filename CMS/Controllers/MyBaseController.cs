@@ -17,10 +17,11 @@ namespace CMS.Controllers
             var service = new GeneralSettingsService(new GeneralSettingsRepository(new CMSContext.Context()));
             MainLayoutViewModel = new MainLayoutViewModel
             {
-                Label = service.GetPage(1).Label,
-                Label1 = service.GetPage(2).Label,
-                Label2 = service.GetPage(3).Label,
-                Label3 = service.GetPage(4).Label
+                PageTitle = service.GetApplicationName(),
+                Label1 = service.GetPage(1).Label,
+                Label2 = service.GetPage(2).Label,
+                Label3 = service.GetPage(3).Label,
+                Label4 = service.GetPage(4).Label
             };
 
 

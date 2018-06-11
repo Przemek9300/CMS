@@ -69,6 +69,7 @@ namespace CMS.Services
         }
 
         public SubPage GetPage(int page)
+
         {
             var subpage = _settingContext.GetPage(page);
             if (subpage != null && !String.IsNullOrEmpty(subpage.Label))
@@ -87,7 +88,10 @@ namespace CMS.Services
 
         public int AriclesInPage () 
         {
-            return 5;
+            var amount = _settingContext.GetArticlesinPage();
+            if (amount < 1)
+                return 1;
+            return amount;
         }
     }
  }

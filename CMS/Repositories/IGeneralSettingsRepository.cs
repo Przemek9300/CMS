@@ -11,7 +11,7 @@ namespace CMS.Repositories
     {
         GeneralSettings GetConfig();
         void AddConfig(GeneralSettings config);
-
+        int GetArticlesinPage();
 
         Task SaveAsync();
         SubPage GetPage(int page);

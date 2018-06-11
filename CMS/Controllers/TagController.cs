@@ -37,8 +37,8 @@ namespace CMS.Controllers
                 ViewBag.tag = query;
             else
                 ViewBag.tag = "Nie znaleziono!";
-            int pageSize = 2;
-            int pageNumber = (page ?? 1);
+            int pageSize = _Repostiory.GeneralSettingsRepository.GetArticlesinPage();
+            int pageNumber =  pageNumber = (page ?? 1);
             return View("~/Views/Post/Index.cshtml", posts.ToPagedList(pageNumber, pageSize));
 
 

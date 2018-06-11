@@ -194,8 +194,9 @@ namespace CMS.Controllers
         }
         public ActionResult SubPage(int id)
         {
-
+                
                 ViewBag.id = id;
+                
                 return View();
             
 

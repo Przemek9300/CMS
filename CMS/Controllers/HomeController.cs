@@ -19,12 +19,13 @@ namespace CMS.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            var content = serivce.GetPage(1);
+            return View(content);
         }
 
         public ActionResult About()
         {
-            var content = serivce.GetPage(1);
+            var content = serivce.GetPage(2);
             
 
             return View(content);
@@ -32,9 +33,8 @@ namespace CMS.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var content = serivce.GetPage(3);
+            return View(content);
         }
     }
 }

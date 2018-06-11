@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@viewModel.Label - My ASP.NET Application</title>
+    <title>@viewModel.PageTitle - My ASP.NET Application</title>
    
   
     @Styles.Render("~/Content/css")
@@ -19,15 +19,15 @@
 <body>
 
 	<nav class="navbar navbar-expand-md bg-light navbar-light">
-		<a class="navbar-brand" href="#">Navbar</a>
+		@Html.ActionLink(@viewModel.PageTitle, "Index", "Home", null, new { @class = "navbar-brand" })
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav">
 				<li>@Html.ActionLink("Artykuły", "Index", "Post", null, new { @class = "nav-link" })</li>
-				<li>@Html.ActionLink(viewModel.Label1, "About", "Home", null, new { @class = "nav-link" })</li>
-				<li>@Html.ActionLink(viewModel.Label2, "Contact", "Home",null ,new { @class = "nav-link" })</li>
+				<li>@Html.ActionLink(viewModel.Label2, "About", "Home", null, new { @class = "nav-link" })</li>
+				<li>@Html.ActionLink(viewModel.Label3, "Contact", "Home",null ,new { @class = "nav-link" })</li>
 				@if (User.IsInRole("Admin"))
 				{
 					<li>@Html.ActionLink("Panel Administracyjny", "Index", "Admin", null, new { @class = "nav-link" })</li>

@@ -29,6 +29,14 @@ namespace CMS.Repositories
             _repository.SaveChanges();
         }
 
+        public int GetArticlesinPage()
+        {
+            var amount = _repository.GeneralSettings.First().ArticlesInOneView;
+            if (amount < 1)
+                return 1;
+            return amount;
+        }
+
         public GeneralSettings GetConfig()
         {
             return _repository.GeneralSettings.FirstOrDefault();
@@ -36,33 +44,33 @@ namespace CMS.Repositories
 
         public SubPage GetPage(int page)
         {
+            GeneralSettings config = null;
             switch (page)
             {
                 default:
-                    GeneralSettings a = _repository.GeneralSettings.FirstOrDefault();
-                    if (a == null)
+
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return a.Page1;
+
                 case 1:
-                    GeneralSettings s = _repository.GeneralSettings.FirstOrDefault();
-                    if(s==null)
+                     config = _repository.GeneralSettings.FirstOrDefault();
+                    if(config == null)
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return s.Page1;
+                    return config.Page1;
                 case 2:
-                    GeneralSettings c = _repository.GeneralSettings.FirstOrDefault();
-                    if (c == null)
+                    config = _repository.GeneralSettings.FirstOrDefault();
+                    if (config == null)
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return c.Page1;
+                    return config.Page2;
                 case 3:
-                    GeneralSettings q = _repository.GeneralSettings.FirstOrDefault();
-                    if (q == null)
+                     config = _repository.GeneralSettings.FirstOrDefault();
+                    if (config == null)
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return q.Page1;
+                    return config.Page3;
                 case 4:
-                    GeneralSettings w = _repository.GeneralSettings.FirstOrDefault();
-                    if (w == null)
+                     config = _repository.GeneralSettings.FirstOrDefault();
+                    if (config == null)
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return w.Page1;
+                    return config.Page4;
             }
         }
 
