@@ -228,9 +228,7 @@ namespace CMS.Controllers
                             config.Page3 = page;
                             break;
 
-                        case 4:
-                            config.Page4 = page;
-                            break;
+   
                     }
                 await setting.SaveAsync();
                     if (id >= 4)

@@ -16,17 +16,17 @@
 
 
 
-        <nav id="sidebar">
+        <nav id="sidebar" class="navbar-light">
             <!-- Sidebar Header -->
             <div class="sidebar-header">
-                <h3>@User.Identity.Name.Split('@')[0]</h3>
-                <a>Administrator</a>
+                <h3 class="nav-item">@User.Identity.Name.Split('@')[0]</h3>
+                <a class="nav-link">Administrator</a>
             </div>
 
 
             <!-- Sidebar Links -->
             <ul class="list-unstyled components">
-                <li class="active">@Html.ActionLink("Dom", "Index")</li>
+                <li class="active">@Html.ActionLink("Blog", "Index", "Home", null, null)</li>
                 <li>@Html.ActionLink("Ustawienia","Create")</li>
                
 
@@ -34,9 +34,9 @@
                     <!-- Link with dropdown items -->
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Podstrony</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>@Html.ActionLink("Główna", "SubPage", new { id = 1 })</li>
-                        <li>>@Html.ActionLink("O stronie", "SubPage", new { id = 2 })</li>
-                        <li>>@Html.ActionLink("Kontakt", "SubPage", new { id = 3 })</li>
+                        <li class="nav-link">@Html.ActionLink("Główna", "SubPage", new { id = 1 })</li>
+                        <li class="nav-link">@Html.ActionLink("O Stronie", "SubPage", new { id = 2 })</li>
+                        <li class="nav-link">@Html.ActionLink("Kontakt", "SubPage", new { id = 3 })</liclass="nav-link">
 
 
                     </ul>

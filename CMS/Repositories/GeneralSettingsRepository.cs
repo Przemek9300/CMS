@@ -66,11 +66,7 @@ namespace CMS.Repositories
                     if (config == null)
                         return new SubPage() { CodeHtml = "", Label = "defualt" };
                     return config.Page3;
-                case 4:
-                     config = _repository.GeneralSettings.FirstOrDefault();
-                    if (config == null)
-                        return new SubPage() { CodeHtml = "", Label = "defualt" };
-                    return config.Page4;
+
             }
         }
 

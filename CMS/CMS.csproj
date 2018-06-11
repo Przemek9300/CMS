@@ -237,9 +237,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="ExtensionsMethod\ListExtensions.cs" />
+    <Compile Include="ExtensionsMethod\StringExtensions.cs" />
     <Compile Include="Migrations\201806091007047_AddViewsToPost.cs" />
     <Compile Include="Migrations\201806091007047_AddViewsToPost.Designer.cs">
       <DependentUpon>201806091007047_AddViewsToPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806111746463_removeSubPage4.cs" />
+    <Compile Include="Migrations\201806111746463_removeSubPage4.Designer.cs">
+      <DependentUpon>201806111746463_removeSubPage4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MainLayoutViewModel.cs" />
@@ -663,6 +668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806091007047_AddViewsToPost.resx">
       <DependentUpon>201806091007047_AddViewsToPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806111746463_removeSubPage4.resx">
+      <DependentUpon>201806111746463_removeSubPage4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

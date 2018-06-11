@@ -56,16 +56,17 @@
 							<blockquote>@item.Description</blockquote>
 						</article>
 						@Html.ActionLink("Czytaj dalej...", "Details","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+
+						@if (User.IsInRole("Admin"))
+						{
+							@Html.ActionLink("Edytuj Post", "Edit", "Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+
+
+							@Html.ActionLink("Usuń Post", "Delete", "Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
+						}
 					</div>
 
-					
-					@if (User.IsInRole("Admin"))
-					{
-						@Html.ActionLink("Edytuj Post", "Edit","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
 
-
-						@Html.ActionLink("Usuń Post", "Delete","Post", new { id = @item.Id }, new { @class = "btn btn-default btn-outline-dark btn-round-lg" })
-				   }
 					<div class="icon-wrapper">
 						<span class="fa-stack fa-lg">
 							
@@ -139,7 +140,7 @@
 									foreach (var item in ViewBag.tag1 as List<Tag>)
 									{
 									<li>
-										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, null)
+										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, new {@class = "popular"})
 									</li>
 									}
 								}
@@ -153,7 +154,7 @@
 									foreach (var item in ViewBag.tag2 as List<Tag>)
 									{
 										<li>
-											@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, null)
+											@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, new { @class = "popular" })
 										</li>
 									}
 								}
@@ -176,7 +177,7 @@
 							{
 								
 								<li>
-									@Html.ActionLink(item.Title, "Details", "Post", new { id = item.Id }, null)
+									@Html.ActionLink(item.Title.Truncate(45), "Details", "Post", new { id = item.Id }, new { @class="popular" })
 								</li>
 							}
 						}
