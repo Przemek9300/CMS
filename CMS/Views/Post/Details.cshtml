@@ -30,7 +30,7 @@
                     <i class="fa fa-comment-o fa-stack-1x"></i>
 
                 </span>
-                0
+                @Model.Comments.Count
 				<span class="fa-stack fa-lg">
 					<i class="fa  fa-eye fa-stack-1x"></i>
 
@@ -54,45 +54,39 @@
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>
                 <div class="card-body">
-                    <form>
+                    <form action="@Url.Action("AddCommentAsync")" method="post">
                         <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea class="form-control" rows="3" name="content"></textarea>
+							<input type="hidden" name="postId" value="@Model.Id" />
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
-            <!-- Single Comment -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div>
-            <!-- Comment with nested comments -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+			@foreach (var comment in Model.Comments)
+			{
+				 <!-- Single Comment -->
+				<div class="media mb-4">
 
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<img class="d-flex mr-3 rounded-circle" src="https://img.stockfresh.com/img/header-avatar.jpg" alt="">
+					<div class="media-body">
+						<h5 class="mt-0">@comment.Author</h5>
+						<p>@comment.Content</p>
+					</div>
+					@if (User.Identity.Name == comment.Author || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+					{
+						<form action="@Url.Action("RemoveCommentAsync")">
+							<input type="hidden" name="postId" value="@Model.Id" />
+
+							<input type="hidden" name="commentId" value="@comment.CommentId" />
+							<button class="btn btn-danger">Usuń</button>
+						</form>
+					}
+				</div>
+			}
+           
+            <!-- Comment with nested comments -->
+
         </div>
         <!-- Sidebar Widgets Column -->
 		<div class="col-md-4">

@@ -21,6 +21,10 @@ namespace CMS.Models
         public string Content { get; set; }
         public bool AllowComments { get; set; }
         public int Views { get; set; }
+
         public virtual ICollection<Tag> Tags { get; set; }
+
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

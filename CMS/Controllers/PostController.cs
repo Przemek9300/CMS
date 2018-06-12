@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -40,9 +41,9 @@ namespace CMS.Controllers
             ViewBag.tag2 = popularTags[1];
 
             if (String.IsNullOrEmpty(query))
-                 posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x=>x.PublishAt).ToList();
+                posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x => x.PublishAt).ToList();
             else
-                 posts = _Repostiory.PostRepository.GetPostByQuery(query).OrderByDescending(x=>x.PublishAt).ToList();
+                posts = _Repostiory.PostRepository.GetPostByQuery(query).OrderByDescending(x => x.PublishAt).ToList();
 
 
 
@@ -72,7 +73,7 @@ namespace CMS.Controllers
                 return View(post);
             }
             return RedirectToAction("Index");
-            
+
         }
 
         // GET: Post/Create
@@ -81,8 +82,8 @@ namespace CMS.Controllers
             var post = new PostViewModel();
 
 
-            
-           
+
+
             return View();
         }
 
@@ -92,6 +93,7 @@ namespace CMS.Controllers
         {
             try
             {
+
                 // TODO: Add insert logic here
                 if (file != null && file.ContentLength > 0)
                 {
@@ -104,42 +106,43 @@ namespace CMS.Controllers
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
-                 
-                        var listTags = new List<Tag>();
+
+                    var listTags = new List<Tag>();
                     var tags = post.Options.Split(',');
-               
+
                     foreach (var tag in tags)
                         listTags.Add(_Repostiory.TagRepository.GetTagOrAdd(tag));
 
                     if (post != null)
+                    {
+                        post.Id = Guid.NewGuid().ToString();
+                        post.PublishAt = DateTime.Now;
+                        _Repostiory.PostRepository.AddPost(new Post
                         {
-                            post.Id = Guid.NewGuid().ToString();
-                            post.PublishAt = DateTime.Now;
-                            _Repostiory.PostRepository.AddPost(new Post
-                            {
-                                Title = post.Title,
-                                AllowComments = post.AllowComments,
-                                Author = User.Identity.Name,
-                                Content = post.Content,
-                                Description = post.Description,
-                                Id = Guid.Parse(post.Id),
-                                ImageUrl = serverPath,
-                                PublishAt = post.PublishAt,
-                                Tags = listTags,
+                            Title = post.Title,
+                            AllowComments = post.AllowComments,
+                            Author = User.Identity.Name,
+                            Content = post.Content,
+                            Description = post.Description,
+                            Id = Guid.Parse(post.Id),
+                            ImageUrl = serverPath,
+                            PublishAt = post.PublishAt,
+                            Tags = listTags,
 
-                            });
 
-                            await _Repostiory.SaveAsync();
-                            file.SaveAs(path);
-                        }
-                        
-                    
+                        });
+
+                        await _Repostiory.SaveAsync();
+                        file.SaveAs(path);
+                    }
+
+
                 }
 
                 return RedirectToAction("Index");
             }
 
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return View();
@@ -151,15 +154,15 @@ namespace CMS.Controllers
         {
 
 
-                var post = _Repostiory.PostRepository.GetPostByID(id);
-                     return View(post);
-            
-           
+            var post = _Repostiory.PostRepository.GetPostByID(id);
+            return View(post);
+
+
         }
 
         // POST: Post/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(HttpPostedFileBase file , Guid id, Post post)
+        public async Task<ActionResult> Edit(HttpPostedFileBase file, Guid id, Post post)
         {
             try
             {
@@ -174,18 +177,18 @@ namespace CMS.Controllers
                     var path = Path.Combine(Server.MapPath("~/Content/Images/Posts"), fileName);
                     var serverPath = ImageService.ImagePostPathServer(fileName);
 
-                        post.ImageUrl = serverPath;
-                        _Repostiory.PostRepository.ModifyPost(post);
-                        await _Repostiory.SaveAsync();
-                    
+                    post.ImageUrl = serverPath;
+                    _Repostiory.PostRepository.ModifyPost(post);
+                    await _Repostiory.SaveAsync();
+
                     file.SaveAs(path);
                 }
 
 
 
-                    return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return View();
@@ -193,11 +196,14 @@ namespace CMS.Controllers
         }
 
         // GET: Post/Delete/5
+        [HttpGet]
         public ActionResult Delete(Guid id)
         {
             var post = _Repostiory.PostRepository.GetPostByID(id);
+
             return View(post);
         }
+
         [WebMethod]
         [AllowAnonymous]
         [HttpPost]
@@ -206,12 +212,12 @@ namespace CMS.Controllers
             if (query.StartsWith("#"))
             {
                 var tag = query.Split('#')[1];
-                var tags = _Repostiory.TagRepository.GetTagsByQuery(tag).Select(r => new { label = r.Name, value = Url.Action("Index", "Tag", new { tag = r.Name }) }) .Take(5).ToList();
+                var tags = _Repostiory.TagRepository.GetTagsByQuery(tag).Select(r => new { label = r.Name, value = Url.Action("Index", "Tag", new { tag = r.Name }) }).Take(5).ToList();
                 return Json(tags, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                var posts = _Repostiory.PostRepository.GetPostByQuery(query).Select(r => new { label = r.Title, value = Url.Action("Details","Post", new {id = r.Id }) }).Take(5).ToList();
+                var posts = _Repostiory.PostRepository.GetPostByQuery(query).Select(r => new { label = r.Title, value = Url.Action("Details", "Post", new { id = r.Id }) }).Take(5).ToList();
                 return Json(posts, JsonRequestBehavior.AllowGet);
 
             }
@@ -230,13 +236,13 @@ namespace CMS.Controllers
             try
             {
 
-                    var post = _Repostiory.PostRepository.GetPostByID(id);
-                    if (post != null)
-                    {
-                        _Repostiory.PostRepository.DeletePost(post);
-                        await _Repostiory.SaveAsync();
-                    };
-                
+                var post = _Repostiory.PostRepository.GetPostByID(id);
+                if (post != null)
+                {
+                    _Repostiory.PostRepository.DeletePost(post);
+                    await _Repostiory.SaveAsync();
+                };
+
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
@@ -246,6 +252,39 @@ namespace CMS.Controllers
                 return View();
             }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> AddCommentAsync(string content, string postID)
+        {
+            string author = User.Identity.Name;
+            if (String.IsNullOrEmpty(author))
+                author = "Anonim";
+            Comment comment = new Comment()
+            {
+                Author = author,
+                Content = content,
+                PublishAt = DateTime.Now,
+                Edited = true
 
+
+            };
+            var post = _Repostiory.PostRepository.GetPostByID(Guid.Parse(postID));
+            post.Comments.Add(comment);
+            await _Repostiory.SaveAsync();
+
+
+            return RedirectToAction("Details", new { id = postID });
+
+        }
+        public async Task<ActionResult> RemoveCommentAsync(string commentId, string postId)
+        {
+            var comment = await _Repostiory.CommentRepository.GetAsync(Int32.Parse(commentId));
+            _Repostiory.CommentRepository.Remove(comment);
+            await _Repostiory.SaveAsync();
+
+
+            return RedirectToAction("Details", new { id = postId });
+        }
     }
+
 }

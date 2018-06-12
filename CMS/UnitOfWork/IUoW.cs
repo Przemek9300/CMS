@@ -12,7 +12,7 @@ namespace CMS.UnitOfWork
         PostRepository PostRepository { get; }
         TagRepository TagRepository { get; }
         GeneralSettingsRepository GeneralSettingsRepository { get; }
-
+        CommentRepository CommentRepository { get; }
         Task SaveAsync();
     }
 }

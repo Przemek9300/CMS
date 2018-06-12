@@ -20,6 +20,22 @@ namespace CMS.UnitOfWork
         private PostRepository _postRepository;
         private TagRepository _tagRepository;
         private GeneralSettingsRepository _generalSettings;
+        private CommentRepository _commentRepository;
+
+
+        public CommentRepository CommentRepository
+        {
+            get
+            {
+                if (_commentRepository == null)
+                {
+                    _commentRepository = new CommentRepository(_context);
+                }
+
+                return _commentRepository;
+            }
+        }
+
 
 
         public TagRepository TagRepository
