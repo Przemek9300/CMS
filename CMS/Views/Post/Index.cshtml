@@ -78,12 +78,15 @@
 							<i class="fa fa-clock-o fa-stack-1x"></i>
 						</span>
 						@item.PublishAt.ToString("dd-MMMM-yy")
+						@if (item.AllowComments)
+						{
 						<span class="fa-stack fa-lg">
 							
 							<i class="fa fa-comment-o fa-stack-1x"></i>
 
 						</span>
 						@item.Comments.Count
+						}
 						<span class="fa-stack fa-lg">
 							<i class="fa  fa-eye fa-stack-1x"></i>
 

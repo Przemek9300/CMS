@@ -31,8 +31,20 @@ namespace CMS.Controllers
 
 
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
-            ViewBag.tag1 = popularTags[0];
-            ViewBag.tag2 = popularTags[1];
+            if (popularTags != null && popularTags.Count != 0)
+            {
+                ViewBag.tag1 = popularTags[0];
+                if (popularTags.Count == 2)
+                    ViewBag.tag2 = popularTags[1];
+                else
+                    ViewBag.tag2 = new List<Tag>();
+
+            }
+            else
+            {
+                ViewBag.tag1 = new List<Tag>();
+                ViewBag.tag2 = new List<Tag>();
+            }
             if (!String.IsNullOrEmpty(query))
                 ViewBag.tag = query;
             else

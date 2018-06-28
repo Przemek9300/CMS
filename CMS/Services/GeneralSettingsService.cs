@@ -44,7 +44,7 @@ namespace CMS.Services
             using (Context context = new Context())
             {
                 var settings = context.GeneralSettings.FirstOrDefault();
-                if (settings.ApplicationName != null)
+                if (settings != null )
                     return settings.ApplicationName;
             }
             return "Blog";

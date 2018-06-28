@@ -38,8 +38,20 @@ namespace CMS.Controllers
             ViewBag.name = "Blog";
             List<Post> posts = null;
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
-            ViewBag.tag1 = popularTags[0];
-            ViewBag.tag2 = popularTags[1];
+            if (popularTags != null && popularTags.Count!=0)
+            {
+                ViewBag.tag1 = popularTags[0];
+                if(popularTags.Count==2)
+                 ViewBag.tag2 = popularTags[1];
+                else
+                    ViewBag.tag2 = new List<Tag>();
+
+            }
+            else
+            {
+                ViewBag.tag1 = new List<Tag>();
+                ViewBag.tag2 = new List<Tag>();
+            }
 
             if (String.IsNullOrEmpty(query))
                 posts = _Repostiory.PostRepository.GetPosts().OrderByDescending(x => x.PublishAt).ToList();
@@ -62,8 +74,20 @@ namespace CMS.Controllers
         {
             ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
             var popularTags = _Repostiory.TagRepository.GetTagsByPopular().ChunkBy(3);
-            ViewBag.tag1 = popularTags[0];
-            ViewBag.tag2 = popularTags[1];
+            if (popularTags != null && popularTags.Count != 0)
+            {
+                ViewBag.tag1 = popularTags[0];
+                if (popularTags.Count == 2)
+                    ViewBag.tag2 = popularTags[1];
+                else
+                    ViewBag.tag2 = new List<Tag>();
+
+            }
+            else
+            {
+                ViewBag.tag1 = new List<Tag>();
+                ViewBag.tag2 = new List<Tag>();
+            }
             ViewBag.newestPost = _Repostiory.PostRepository.GetPosts().Take(6).OrderByDescending(x => x.PublishAt).ToList();
             var post = _Repostiory.PostRepository.GetPostByID(id);
             if (post != null)

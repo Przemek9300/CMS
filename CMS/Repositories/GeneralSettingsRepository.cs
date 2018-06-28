@@ -31,10 +31,15 @@ namespace CMS.Repositories
 
         public int GetArticlesinPage()
         {
-            var amount = _repository.GeneralSettings.First().ArticlesInOneView;
-            if (amount < 1)
+            var settings = _repository.GeneralSettings.FirstOrDefault();
+            if (settings == null)
+            {
+                return 2;
+            }
+
+            if (settings.ArticlesInOneView < 1)
                 return 1;
-            return amount;
+            return settings.ArticlesInOneView;
         }
 
         public GeneralSettings GetConfig()

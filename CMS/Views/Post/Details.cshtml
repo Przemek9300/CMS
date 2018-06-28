@@ -26,11 +26,14 @@
                     <i class="fa fa-clock-o fa-stack-1x"></i>
                 </span>
                 @Model.PublishAt.ToString("dd-MMMM-yy")
+				@if (Model.AllowComments)
+				{
                 <span class="fa-stack fa-lg">
                     <i class="fa fa-comment-o fa-stack-1x"></i>
 
                 </span>
                 @Model.Comments.Count
+				}
 				<span class="fa-stack fa-lg">
 					<i class="fa  fa-eye fa-stack-1x"></i>
 
@@ -48,8 +51,9 @@
             </div>
             
 
-        
-          
+        @if (Model.AllowComments)
+		{
+
             <!-- Comments Form -->
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>
@@ -63,7 +67,8 @@
                     </form>
                 </div>
             </div>
-			@foreach (var comment in Model.Comments)
+
+			foreach (var comment in Model.Comments)
 			{
 				 <!-- Single Comment -->
 				<div class="media mb-4">
@@ -81,12 +86,12 @@
 							<input type="hidden" name="commentId" value="@comment.CommentId" />
 							<button class="btn btn-danger">Usuń</button>
 						</form>
-						<button type="button" class="btn btn-info openBtn" data-toggle="modal" data-target="#myModal">Edytuj</button>
 
 					}
 				</div>
 			}
-           
+		}
+
             <!-- Comment with nested comments -->
 
         </div>
@@ -217,6 +222,7 @@
 
     <!-- /.row -->
 </div>
+	</div>
 <!-- /.container -->
 <section script>
 	<script>
