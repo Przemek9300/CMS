@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace CMS.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : MyBaseController
     {
         private readonly IGeneralSettingsSerivce setting;
