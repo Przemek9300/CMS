@@ -4,6 +4,7 @@ using CMS.Repositories;
 using CMS.Service;
 using CMS.UnitOfWork;
 using CMS.ViewModels;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -212,7 +213,7 @@ namespace CMS.Controllers
             if (query.StartsWith("#"))
             {
                 var tag = query.Split('#')[1];
-                var tags = _Repostiory.TagRepository.GetTagsByQuery(tag).Select(r => new { label = r.Name, value = Url.Action("Index", "Tag", new { tag = r.Name }) }).Take(5).ToList();
+                var tags = _Repostiory.TagRepository.GetTagsByQuery(tag).Select(r => new { label = r.Name, value = Url.Action("Index", "Tag", new { query = r.Name }) }).Take(5).ToList();
                 return Json(tags, JsonRequestBehavior.AllowGet);
             }
             else
@@ -285,6 +286,13 @@ namespace CMS.Controllers
 
             return RedirectToAction("Details", new { id = postId });
         }
+        public async Task<ActionResult> EditCommentAsync(string commentId, string postId)
+        {
+            var comment = await _Repostiory.CommentRepository.GetAsync(Int32.Parse(commentId));
+            var objectJson = JsonConvert.SerializeObject(comment);
+            return Json(objectJson);
+        }
+
     }
 
 }

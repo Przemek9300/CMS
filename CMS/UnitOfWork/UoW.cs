@@ -50,11 +50,6 @@ namespace CMS.UnitOfWork
                 return _tagRepository;
             }
         }
-        
-
-
-
-
         PostRepository IUoW.PostRepository
         {
             get

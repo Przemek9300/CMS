@@ -71,7 +71,7 @@
 					<img class="d-flex mr-3 rounded-circle" src="https://img.stockfresh.com/img/header-avatar.jpg" alt="">
 					<div class="media-body">
 						<h5 class="mt-0">@comment.Author</h5>
-						<p>@comment.Content</p>
+						<p class="MyComment">@comment.Content</p>
 					</div>
 					@if (User.Identity.Name == comment.Author || User.IsInRole("Admin") || User.IsInRole("Moderator"))
 					{
@@ -81,6 +81,8 @@
 							<input type="hidden" name="commentId" value="@comment.CommentId" />
 							<button class="btn btn-danger">Usuń</button>
 						</form>
+						<button type="button" class="btn btn-info openBtn" data-toggle="modal" data-target="#myModal">Edytuj</button>
+
 					}
 				</div>
 			}
@@ -115,7 +117,7 @@
 								@foreach (var item in ViewBag.tag1 as List<Tag>)
 								{
 									<li>
-										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { tag = item.Name }, new { @class = "popular" })
+										@Html.ActionLink(item.Name + "(" + item.Posts.Count + ")", "Index", "Tag", new { query = item.Name }, new { @class = "popular" })
 									</li>
 								}
 							</ul>
@@ -154,8 +156,65 @@
 
 				</div>
 			</div>
+
 		</div>
-    </div>
+
+
+
+
+
+
+
+
+
+
+		<!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Edycja Postu</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						
+					</div>
+					<div class="modal-body">
+						<form action="@Url.Action("AddCommentAsync")" method="post">
+							<div class="form-group">
+								<textarea class="form-control fillComment" rows="3" name="content" value=""></textarea>
+								<input type="hidden" name="postId" value="" />
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- /.row -->
 </div>
 <!-- /.container -->
@@ -209,18 +268,19 @@
 			}
 
 
-
-
-
-
 		}
 
 
 
 		)
 
-
-
+	</script>
+	<script>
+		$('.openBtn').on('click', () => {
+			let c = $('.MyComment').val()
+			console.log(c)
+			$('.fillComment').val()
+				});
 
 
 	</script>

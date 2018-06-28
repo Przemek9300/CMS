@@ -61,7 +61,9 @@ namespace CMS.Repositories
 
         public List<Post> GetPostsByQueryTag(string tag)
         {
-            return _repository.Posts.Where<Post>(X => X.Tags.Any(y => y.Name.Contains(tag))).ToList();
+            return _repository.Posts
+                    .Where<Post>(X => X.Tags.Any(y => y.Name.Contains(tag)))
+                    .ToList();
         }
 
         public List<Post> GetPostsByTag(string tag)
